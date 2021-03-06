@@ -1,14 +1,13 @@
 const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
+const colors = require('colors');
 const morgan = require('morgan');
-
-// Connected MongoDB
 const connectDB = require('./config/db');
-connectDB();
 
-// Config Path
 dotenv.config({ path: './config/config.env' });
+// Connected MongoDB
+connectDB();
 
 // Route Path
 const users = require('./routes/users');
