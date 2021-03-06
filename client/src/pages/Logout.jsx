@@ -2,8 +2,9 @@ import React from 'react'
 
 const Logout = () => {
   return (
-    <div>Logout</div>
+    <div>
+      Logout
+    </div>
   )
 }
-
 export default Logout
