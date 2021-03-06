@@ -1,6 +1,6 @@
 const { User } = require('../models/User');
 const bcrypt = require('bcryptjs');
-// const { registerValidation } = require('./validation');
+const { registerValidation } = require('./validation');
 
 // @description register new user
 // @route       POST /api/user
@@ -10,10 +10,10 @@ exports.registerUser = async (req, res) => {
     const { name, email, password } = req.body;
 
     // validate some inputed date
-    // const { error } = registerValidation(req.body);
+    const { error } = registerValidation(req.body);
 
-    // // if have some errors , show some messages
-    // if (error) return res.status(400).send(error.details[0].message);
+    // if have some errors , show some messages
+    if (error) return res.status(400).send(error.details[0].message);
 
     // check to already have email
     let user = await User.findOne({ email });
