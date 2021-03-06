@@ -1,4 +1,15 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html {
-    background-color: black;
-    height: 100vh;
+  background-color: blanchedalmond;
+}
+
+body {
+  min-height: 100vh;
+  max-width: 400px;
+  margin: 0 auto;
 }
