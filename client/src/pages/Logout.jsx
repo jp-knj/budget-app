@@ -1,10 +1,13 @@
-import React from 'react'
+import { useContext, useEffect } from 'react';
+import { GlobalContext } from '../context/GlobalState';
 
 const Logout = () => {
-  return (
-    <div>
-      Logout
-    </div>
-  )
-}
-export default Logout
+  const { logoutUser } = useContext(GlobalContext);
+  useEffect(() => {
+    logoutUser();
+    // eslint-disable-next-line
+  }, []);
+  return null;
+};
+
+export default Logout;

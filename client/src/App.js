@@ -7,11 +7,13 @@ import Dashboard from './pages/Dashboard'
 import Transactions from './pages/Transactions'
 import Statistics from './pages/Statistics'
 import Profile from './pages/Profile'
+import Register from './pages/Register'
 import Login from './pages/Login'
 import Logout from './pages/Logout'
 
 // Components
 import Sidebar from './components/Sidebar'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const App = () => {
   return (
