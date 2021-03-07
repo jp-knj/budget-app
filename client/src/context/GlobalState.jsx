@@ -9,7 +9,10 @@ const initialState = {
   loading: true
 };
 
+// Create context
 export const GlobalContext = createContext(initialState);
+
+// Provider context
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
@@ -18,11 +21,11 @@ export const GlobalProvider = ({ children }) => {
   }
 
   axios.defaults.headers.common["x-auth-token"] = getToken();
-
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
 
+  // Action
   async function registerUser(user) {
     try {
       const res = await axios.post('/api/users', user, config);
@@ -33,7 +36,7 @@ export const GlobalProvider = ({ children }) => {
     } catch (err) {
       dispatch({
         type: 'LOGIN_ERROR',
-        payload: err.response.data
+        payload: err.response
       });
     }
   }
