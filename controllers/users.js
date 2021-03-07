@@ -50,3 +50,40 @@ exports.registerUser = async (req, res) => {
     });
   }
 };
+
+// @description login user
+// @route       POST /api/auth
+// @access      Public
+exports.loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const { error } = loginValidation(req.body);
+
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).send('User does not exist');
+
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) return res.status(400).send('Invalid password')
+
+    const token = user.generateAuthToken();
+    res.header('x-auth-token', token);
+
+    return res.status(201).json({
+      success: true,
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      },
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: 'Server Error'
+    });
+  }
+};
