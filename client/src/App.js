@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import { GlobalProvider } from './context/GlobalState.jsx'
 
 // Pages
@@ -19,11 +19,14 @@ const App = () => {
       <Sidebar>
         <Switch>
           <Route path='/login' component={Login} />
+          <Route path='/register' component={Register} />
           <Route path='/logout' component={Logout} />
-          <Route path='/dashboard' component={Dashboard} />
-          <Route path='/transactions' component={Transactions} />
-          <Route path='/statistics' component={Statistics} />
-          <Route path='/profile' component={Profile} />
+          <ProtectedRoute path='/dashboard' component={Dashboard} />
+          <ProtectedRoute path='/transactions' component={Transactions} />
+          <ProtectedRoute path='/statistics' component={Statistics} />
+          <ProtectedRoute path='/profile' component={Profile} />
+          <Redirect from='/' exact to='/dashboard' />
+          <Redirect to='/not-found' />
         </Switch>
       </Sidebar>
     </GlobalProvider>
