@@ -9,13 +9,14 @@ dotenv.config({ path: './config/config.env' });
 // Connected MongoDB
 connectDB();
 
-// Route Path
-const users = require('./routes/users');
-
 const app = express();
 app.use(express.json());
 
+// Route Path
+const users = require('./routes/users');
+const auth = require('./routes/auth')
 app.use('/api/users', users);
+app.use('/api/auth', auth);
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
