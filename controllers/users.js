@@ -1,6 +1,6 @@
 const { User } = require('../models/User');
 const bcrypt = require('bcryptjs');
-const { registerValidation } = require('./validation');
+const { registerValidation, loginValidation } = require('./validation');
 
 // @description register new user
 // @route       POST /api/user
@@ -28,10 +28,8 @@ exports.registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
     await user.save();
-    console.log('aaa');
     const token = user.generateAuthToken();
 
-    console.log(token);
     return res.status(201)
       .header('x-auth-token', token)
       .header('access-control-expose-headers', 'x-auth-token')
