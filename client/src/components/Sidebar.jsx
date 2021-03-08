@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
+
+// Context
+import { GlobalContext } from '../context/GlobalState'
 
 // Material-UI Core
 import { MenuItem, MenuList, ListItemIcon } from '@material-ui/core'
@@ -9,6 +12,14 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Add } from '@material-ui/icons'
 
 const Sidebar = ({ children }) => {
+  const { getToken, users, loadUser } = useContext(GlobalContext);
+  const token = getToken();
+
+  useEffect(() => {
+    token && loadUser();
+    // eslint-disable-next-line
+  }, []);
+
   const useStyles = makeStyles(() => ({
     addCircleIcon: {
       color: 'white'
@@ -22,7 +33,9 @@ const Sidebar = ({ children }) => {
           <div className="introduction">
             <h3 className="introduction_date">Friday, 5 March</h3>
             <h4 className="introduction_time">Good Morning</h4>
-            <h2 className="introduction_name">Kenji Tomita</h2>
+            <h2 className="introduction_name">
+              {token && users.user && users.user.name}
+            </h2>
           </div>
           <nav className="navigation">
             <MenuList>

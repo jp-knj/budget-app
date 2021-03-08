@@ -8,6 +8,20 @@ export default (state, action) => {
         token: action.payload.token,
         users: action.payload,
       }
+    case 'UPDATE_USER':
+      const { success, user } = action.payload;
+      return {
+        ...state,
+        users: { success, user },
+      }
+    case 'LOAD_USER':
+      const token = localStorage.getItem('token');
+      return {
+        ...state,
+        token,
+        loading: false,
+        users: action.payload,
+      }
     case 'LOGOUT_USER':
       localStorage.removeItem("token");
       window.location = '/login';
@@ -22,7 +36,6 @@ export default (state, action) => {
         ...state,
         error: action.payload
       }
-
     default:
       return state;
   }
