@@ -1,0 +1,17 @@
+.btn {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 10px;
+  right: 10px;
+  border-radius: 50%;
+  height: 62px;
+  width: 62px;
+  cursor: pointer;
+  background-color: $color-primary;
+
+  &:hover {
+    opacity: .8;
+  }
+}
