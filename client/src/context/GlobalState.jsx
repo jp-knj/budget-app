@@ -5,6 +5,7 @@ import AppReducer from './AppReducer'
 
 const initialState = {
   users: [],
+  transactions: [],
   token: null,
   error: null,
   loading: true
@@ -102,10 +103,26 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
+  async function addTransaction(transaction) {
+    try {
+      const res = await axios.post('/api/transactions', transaction, config);
+      dispatch({
+        type: 'ADD_TRANSACTION',
+        payload: res.data.data
+      });
+    } catch (err) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: err.response.data.error
+      });
+    }
+  }
+
   return (
     <GlobalContext.Provider
       value={{
         token: state.token,
+        transactions: state.transactions,
         users: state.users,
         error: state.error,
         loading: state.loading,
@@ -116,6 +133,7 @@ export const GlobalProvider = ({ children }) => {
         logoutUser,
         loadUser,
         getToken,
+        addTransaction
       }}
     >
       {children}

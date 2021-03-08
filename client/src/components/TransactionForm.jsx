@@ -1,4 +1,5 @@
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useContext, useState, useCallback } from 'react'
+import { GlobalContext } from '../context/GlobalState'
 
 // Material Ui
 import { makeStyles, withStyles } from '@material-ui/core/styles'
@@ -9,6 +10,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import format from 'date-fns/format';
+
+import moment from 'moment';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
@@ -71,11 +74,47 @@ const InputDate = ({ date, handleDate }) => {
 };
 
 const TransactionForm = ({ open, setOpen }) => {
-
+  const { addTransaction } = useContext(GlobalContext);
+  const initialDate = moment();
+  const [text, setText] = useState(''),
+        [errorText, setErrorText] = useState(false);
+  const [amount, setAmount] = useState(null),
+        [errorAmount, setErrorAmount] = useState(false);
+  const [date, setDate] = useState(initialDate);
   const handleClose = useCallback(() => {
-    console.log("aaa");
     setOpen(false);
   }, [setOpen]);
+
+  const handleAmount = useCallback(({ target: input }) => {
+    setAmount(input.value);
+  }, [text, errorText]);
+
+  const handleText = useCallback(({ target: input }) => {
+    setText(input.value);
+  }, [amount, errorAmount]);
+
+  const handleDate = useCallback((date) => {
+    setDate(date);
+  }, [amount, errorAmount, text, errorText]);
+
+  const handleSave = useCallback(() => {
+    setText(text);
+    setAmount(amount);
+    setDate(date);
+  }, [text, amount, date]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log(text, amount, date);
+    const amountNumber = amount;
+    const newTransaction = {
+      text,
+      amount: amountNumber,
+      date,
+    };
+    addTransaction(newTransaction);
+    handleSave();
+  };
 
   const ref = useRef();
   return (
@@ -88,13 +127,18 @@ const TransactionForm = ({ open, setOpen }) => {
           TransitionComponent={Transition}
         >
           <TopBar handleClose={handleClose} />
-          <form>
+          <form
+            noValidate
+            autoComplete='off'
+            onSubmit={onSubmit}
+          >
             <div>
               <TextField
                 id='amount'
                 inputRef={ref}
                 label='Amount'
-                required
+                required='true'
+                onChange={handleAmount}
               />
               <TransactionSwitch />
             </div>
@@ -102,8 +146,8 @@ const TransactionForm = ({ open, setOpen }) => {
               id='Description'
               label='Description'
               fullWidth
-              value=''
               required='true'
+              onChange={handleText}
             />
             <InputDate />
             <button>Save</button>
