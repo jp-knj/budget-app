@@ -1,15 +1,6 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@import "fundation/base";
+@import "fundation/variables";
+@import "layout/lauout";
 
-html {
-  background-color: blanchedalmond;
-}
-
-body {
-  min-height: 100vh;
-  max-width: 400px;
-  margin: 0 auto;
-}
+@import "components/budget";
+@import "components/transaction";

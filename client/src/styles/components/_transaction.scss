@@ -1,0 +1,37 @@
+.transaction {
+    width: $content-width;
+    margin: 0 auto;
+  &_header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  &_sort {
+    padding: 30px 0;
+    color: $color-primary-light;
+    text-transform: uppercase;
+  }
+
+  &_lists {
+    li {
+      padding: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid $color-black-light;
+    }
+    h3 {
+      font-weight: 300;
+      margin-bottom: 5px;
+    }
+    p {
+      color: $color-black-light;
+    }
+    .negative {
+      color: $color-secondary;
+    }
+    .positive {
+      color: $color-primary;
+    }
+  }
+}

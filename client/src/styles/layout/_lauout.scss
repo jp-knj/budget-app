@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+}
+.sidebar {
+  position: fixed;
+  min-height: 100vh;
+  width: $navi-width;
+  background-color: #EAEBED;
+}
+.container {
+  min-height: 100vh;
+  width: 100%;
+  margin-left: $navi-width;
+}
+.header {
+  background: linear-gradient(to right, $color-primary, $color-primary-light);
+  text-align: center;
+}

@@ -1,0 +1,37 @@
+.budget {
+  &_inner {
+    padding: 35px 0;
+    margin: 0 auto;
+    width: $content-width;
+  }
+  &_title {
+    @extend .font-text;
+    color: $color-white;
+    opacity: .5;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    &-sub {
+      @extend .heading-tertiary;
+    }
+  }
+  &_value {
+    color: $color-white;
+    @extend .heading-tertiary;
+    line-height: 1.43;
+    letter-spacing: 3px;
+  &-sub {
+    color: $color-white;
+    letter-spacing: 3px;
+   }
+  }
+  &_box {
+    margin-top: 30px;
+    display: flex;
+  }
+  &_items {
+    width : calc(100% / 2);
+  }
+  &_items:first-of-type{
+    border-right: 1px solid $color-white;
+  }
+}
