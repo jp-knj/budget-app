@@ -19,10 +19,10 @@ const Sidebar = ({ children }) => {
     <div className="wrapper">
       <div className="sidebar">
         <aside>
-          <div className="">
-            <h3>Friday, 5 March</h3>
-            <h4>Good Morning</h4>
-            <h2>Kenji Tomita</h2>
+          <div className="introduction">
+            <h3 className="introduction_date">Friday, 5 March</h3>
+            <h4 className="introduction_time">Good Morning</h4>
+            <h2 className="introduction_name">Kenji Tomita</h2>
           </div>
           <nav className="navigation">
             <MenuList>

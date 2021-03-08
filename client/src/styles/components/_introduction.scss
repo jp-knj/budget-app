@@ -1,0 +1,15 @@
+.introduction{
+    margin: 30px 0;
+    padding-left: 10px;
+    &_date {
+      color: $color-black-light;
+      margin-bottom: 10px;
+    }
+    &_time {
+      margin-bottom: 25px;
+    }
+    &_name {
+      @extend .heading-secondary;
+      color: $color-primary;
+    }
+}

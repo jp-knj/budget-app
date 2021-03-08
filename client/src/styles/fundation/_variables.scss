@@ -7,8 +7,14 @@ $color-black-light: #939494;
 $color-white:#FDFDFD;
 
 // Typography
-.heading-primary {font-size: 40px;}
-.heading-secondary {font-size: 34px;}
+.heading-primary {
+  font-size: 40px;
+  font-weight: 300;
+}
+.heading-secondary {
+  font-size: 34px;
+  font-weight: 600;
+}
 .heading-tertiary {font-size: 24px;}
 .heading-subtitle {font-size: 20px;}
 .font-btn {font-size: 18px;}
