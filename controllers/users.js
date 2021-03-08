@@ -87,3 +87,45 @@ exports.loginUser = async (req, res) => {
     });
   }
 };
+
+// @description get a user data
+// @route       GET /api/user
+// @access      Private
+exports.loadUser = async (req, res) => {
+  const user = await User.findById(req.user.id).select('-password');
+  // return res.send(user);
+  return res.status(200).json({
+    success: true,
+    user,
+  });
+};
+
+// @description update a user
+// @route       UPDATE /api/users/:id
+// @access      Private
+exports.updateUser = async (req, res) => {
+  try {
+    const { name, email } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { name, email },
+      { new: true }
+    ).select('-password');
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found'
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: 'Server Error'
+    })
+  }
+};
