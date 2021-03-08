@@ -10,10 +10,6 @@ const TransactionList = () => {
     getTransactions();
   }, []);
 
-  const listItems = lists.map(
-    (list) =>
-      <li>{list.text}</li>
-  );
   console.log(lists);
   return (
     <section className='transaction'>

@@ -1,11 +1,13 @@
 import React, { useRef, useContext, useState, useCallback } from 'react'
 import { GlobalContext } from '../context/GlobalState'
-
+import { datePickerExpense, defaultMaterialTheme } from '../utils/colorTheme'
 // Material Ui
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
 import { TextField, InputAdornment, Switch, Dialog, AppBar, Toolbar, IconButton, Slide } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -16,6 +18,22 @@ import moment from 'moment';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
+
+const useStyles = makeStyles((theme) => ({
+  textColor: {
+    color: '#232C2D',
+    opacity: 0.8,
+  },
+  input: {
+    fontSize: '36px',
+  },
+  inputPlus: {
+    color: theme.palette.primary.main,
+  },
+  inputMinus: {
+    color: '#F4B202',
+  },
+}));
 
 const TopBar = ({ handleClose }) => {
   return (
@@ -75,15 +93,28 @@ const InputDate = ({ date, handleDate }) => {
 
 const TransactionForm = ({ open, setOpen }) => {
   const { addTransaction } = useContext(GlobalContext);
+
   const initialDate = moment();
   const [text, setText] = useState(''),
         [errorText, setErrorText] = useState(false);
   const [amount, setAmount] = useState(null),
         [errorAmount, setErrorAmount] = useState(false);
   const [date, setDate] = useState(initialDate);
+  const [minus, setMinus] = useState(false);
+
+  const classes = useStyles();
+
   const handleClose = useCallback(() => {
     setOpen(false);
   }, [setOpen]);
+
+  const handleFocus = useCallback(() => {
+    ref.current.focus();
+  }, [])
+
+  const handleMinus = useCallback(() => {
+    setMinus(!minus);
+  }, [minus]);
 
   const handleAmount = useCallback(({ target: input }) => {
     setAmount(input.value);
@@ -119,7 +150,7 @@ const TransactionForm = ({ open, setOpen }) => {
   const ref = useRef();
   return (
     <>
-      <ThemeProvider >
+      <ThemeProvider theme={minus ? datePickerExpense : defaultMaterialTheme}>
         <Dialog
           fullScreen
           open={open}
@@ -139,8 +170,24 @@ const TransactionForm = ({ open, setOpen }) => {
                 label='Amount'
                 required='true'
                 onChange={handleAmount}
+                InputProps={{
+                  className: `${classes.input} ${
+                    minus ? classes.inputMinus : classes.inputPlus
+                  }`,
+                    startAdornment: (
+                  <InputAdornment position='start' style={{ margin: 0 }}>
+                    {minus ? <RemoveIcon /> : <AddIcon />}
+                  </InputAdornment>
+                  ),
+                }}
               />
-              <TransactionSwitch />
+              <TransactionSwitch
+                checked={minus}
+                tabIndex='-1'
+                onChange={handleMinus}
+                onClick={handleFocus}
+                inputProps={{ 'aria-label': 'secondary checkbox' }}
+              />
             </div>
             <TextField
               id='Description'
