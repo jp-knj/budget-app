@@ -13,8 +13,10 @@ const app = express();
 app.use(express.json());
 
 // Route Path
+const transactions = require('./routes/transactions')
 const users = require('./routes/users');
-const auth = require('./routes/auth')
+const auth = require('./routes/auth');
+app.use('/api/transactions', transactions);
 app.use('/api/users', users);
 app.use('/api/auth', auth);
 
