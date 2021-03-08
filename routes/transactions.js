@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const { addTransactions } = require('../controllers/transactions');
+const { getTransactions, addTransactions } = require('../controllers/transactions');
 
 router
   .route('/')
+  .get(auth, getTransactions)
   .post(auth, addTransactions);
 
 module.exports = router;
