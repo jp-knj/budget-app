@@ -16,11 +16,12 @@
   }
   &_value {
     color: $color-white;
-    @extend .heading-tertiary;
+    @extend .heading-primary;
     line-height: 1.43;
     letter-spacing: 3px;
   &-sub {
     color: $color-white;
+    @extend .heading-tertiary;
     letter-spacing: 3px;
    }
   }
