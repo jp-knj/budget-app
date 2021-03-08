@@ -1,0 +1,50 @@
+.chart {
+    padding: 50px 0;
+    display: flex;
+    margin: auto;
+    width: $content-width;
+    text-align: center;
+    justify-content: space-around;
+
+    &_pie {
+      position: relative;
+    }
+
+    &_box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      margin: 0;
+      display: flex;
+      align-items: center;
+
+      span {
+        color: $color-white;
+        opacity: .5;
+      }
+    }
+
+    &_percent {
+      @extend .heading-secondary;
+      color: $color-white;
+    }
+
+    &_info {
+        p {
+          color: $color-white;
+        }
+        .chart_contents {
+          margin-bottom: 10px;
+        }
+        .chart_title {
+            color: $color-white;
+            opacity: .5;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        .chart_value {
+            letter-spacing: 3px;
+        }
+    }
+}
