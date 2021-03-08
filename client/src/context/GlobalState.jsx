@@ -103,6 +103,22 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
+  async function getTransactions() {
+    try {
+      const res = await axios.get('/api/transactions');
+      // console.log(res)
+      dispatch({
+        type: 'GET_TRANSACTIONS',
+        payload: res.data.data
+      });
+    } catch (err) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: err.response
+      });
+    }
+  }
+
   async function addTransaction(transaction) {
     try {
       const res = await axios.post('/api/transactions', transaction, config);
@@ -133,6 +149,7 @@ export const GlobalProvider = ({ children }) => {
         logoutUser,
         loadUser,
         getToken,
+        getTransactions,
         addTransaction
       }}
     >

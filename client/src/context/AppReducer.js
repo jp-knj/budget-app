@@ -36,13 +36,22 @@ export default (state, action) => {
         ...state,
         error: action.payload
       }
+    case 'GET_TRANSACTIONS':
+      return {
+        ...state,
+        loading: false,
+        transactions: action.payload,
+      }
     case 'ADD_TRANSACTION':
-      // console.log(action.payload)
-      // {_id: , text: , amount: , date: , user: ,...}
       return {
         ...state,
         transactions: [...state.transactions, action.payload],
       };
+    case 'TRANSACTION_ERROR':
+      return {
+        ...state,
+        error: action.payload
+      }
     default:
       return state;
   }

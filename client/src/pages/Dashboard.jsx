@@ -1,5 +1,6 @@
 import React, {Fragment} from 'react'
 
+// Components
 import TransactionList from '../components/TransactionList'
 
 const Dashboard = () => {
