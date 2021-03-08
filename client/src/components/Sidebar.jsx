@@ -1,8 +1,5 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
-
-// Context
-import { GlobalContext } from '../context/GlobalState'
 
 // Material-UI Core
 import { MenuItem, MenuList, ListItemIcon } from '@material-ui/core'
@@ -11,8 +8,15 @@ import { makeStyles } from '@material-ui/core/styles'
 // Material-UI Icon
 import { Add } from '@material-ui/icons'
 
+// Context
+import { GlobalContext } from '../context/GlobalState'
+
+// Components
+import TransactionForm from './TransactionForm'
+
 const Sidebar = ({ children }) => {
   const { getToken, users, loadUser } = useContext(GlobalContext);
+  const [open, setOpen] = useState(false);
   const token = getToken();
 
   useEffect(() => {
@@ -25,6 +29,11 @@ const Sidebar = ({ children }) => {
       color: 'white'
     }
   }));
+
+  const handleForm = useCallback(() => {
+    setOpen(true);
+  }, []);
+
   const classes = useStyles();
   return (
     <div className="wrapper">
@@ -61,7 +70,11 @@ const Sidebar = ({ children }) => {
       <main className="container">
         {children}
       </main>
-      <div className="btn">
+      <TransactionForm open={open} setOpen={setOpen} />
+      <div
+        className="btn"
+        onClick={handleForm}
+      >
         <Add className={`${classes.addCircleIcon}`} />
       </div>
     </div>
