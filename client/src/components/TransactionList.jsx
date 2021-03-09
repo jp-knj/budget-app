@@ -3,7 +3,10 @@ import { GlobalContext } from '../context/GlobalState'
 
 import { transitionConfig } from '../utils/animation';
 
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core'
+
+// Compoentns
+import ListItem from './ListItem'
 
 const TransactionList = () => {
   const { transactions, getTransactions, resetTransaction, loading } = useContext(GlobalContext)
@@ -11,9 +14,9 @@ const TransactionList = () => {
 
   useEffect(() => {
     getTransactions();
+    resetTransaction()
   }, []);
 
-  console.log(lists);
   return (
     <section className='transaction'>
       <div className='transaction_header'>
@@ -22,16 +25,10 @@ const TransactionList = () => {
       </div>
        {lists.length > 0 ? (
         <ul className='transaction_lists'>
-          {lists.map((list) => (
-          <li className='transaction_list'>
-            <div>
-              <h3>{list.text}</h3>
-              <p>{list.createdAt}</p>
-            </div>
-            <div className="positive">
-              {list.amount} 円
-            </div>
-          </li>
+          {lists.map(( list) => (
+            <animated.div>
+              <ListItem data={list}/>
+            </animated.div>
           ))}
         </ul>
         ) : (
