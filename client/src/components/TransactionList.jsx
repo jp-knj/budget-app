@@ -26,7 +26,7 @@ const TransactionList = () => {
               <p>{list.createdAt}</p>
             </div>
             <div className="positive">
-              +{list.amount} 円
+              {list.amount} 円
             </div>
           </li>
           ))}
