@@ -7,7 +7,7 @@ import { ThemeProvider } from '@material-ui/styles'
 import { Dialog, AppBar, Toolbar, IconButton, Slide } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 // Validation
-import { numberValid, numberCalc } from '../utils/format'
+import { numberValid, numberCalc, numberEuro } from '../utils/format'
 // Theme
 import { datePickerExpense, defaultMaterialTheme } from '../utils/colorTheme'
 // Moment
@@ -37,52 +37,64 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TopBar = ({ handleClose }) => {
+const TopBar = ({ action, handleClose }) => {
   return (
     <AppBar>
       <Toolbar>
+        <h4>{action}</h4>
         <IconButton edge='start' color='inherit' onClick={handleClose} aria-label='close'>
-          <CloseIcon onClick={handleClose}　/>
+          <CloseIcon />
         </IconButton>
       </Toolbar>
     </AppBar>
   );
 };
 
-const TransactionForm = ({ open, setOpen, data }) => {
-  const { addTransaction } = useContext(GlobalContext)
-  const initialDate = moment()
-  const initialMinus = data && data.amount > 0 ? false : true
+const TransactionForm = ({ open, setOpen, action, data }) => {
+  const { addTransaction, updateTransaction } = useContext(GlobalContext);
+  const formatEuro = amount => numberEuro(Math.abs(amount)).toString();
 
-  const [text, setText] = useState(''),
-        [errorText, setErrorText] = useState(false)
-  const [amount, setAmount] = useState(''),
-        [errorAmount, setErrorAmount] = useState(false)
-  const [date, setDate] = useState(initialDate)
-  const [minus, setMinus] = useState(initialMinus)
+  const initialText = data ? data.text : '',
+        initialAmount = data ? formatEuro(data.amount) : null,
+        initialDate = data ? data.date : moment(),
+        initialMinus = data && data.amount > 0 ? false : true;
 
-  const [disableBtn, setDisableBtn] = useState(true)
+  const [text, setText] = useState(initialText),
+        [errorText, setErrorText] = useState(false);
+  const [amount, setAmount] = useState(initialAmount),
+        [errorAmount, setErrorAmount] = useState(false);
+  const [date, setDate] = useState(initialDate);
+  const [minus, setMinus] = useState(initialMinus);
+
+  const [disableBtn, setDisableBtn] = useState(true);
+
+  const reset = useCallback(() => {
+    setOpen(false);
+    setErrorText(false);
+    setErrorAmount(false);
+    setDisableBtn(true);
+  }, [setOpen]);
+
+  const handleClose = useCallback(() => {
+    setText(initialText);
+    setAmount(initialAmount);
+    setDate(initialDate);
+    setMinus(initialMinus);
+    reset();
+  }, [initialText, initialAmount, initialDate, initialMinus, reset]);
+
+  const handleSave = useCallback(() => {
+    setText(action === 'new' ? '' : text);
+    setAmount(action === 'new' ? null : amount);
+    setDate(action === 'new' ? moment() : date);
+    setMinus(action === 'new' ? true : minus);
+    reset();
+  }, [text, minus, amount, date, action, reset]);
 
   const itemValid = (item, errorItem) => {
     if (!item) setDisableBtn(true);
     else errorItem ? setDisableBtn(true) : setDisableBtn(false);
   };
-
-  const reset = useCallback(() => {
-    setOpen(false)
-    setErrorText(false)
-    setErrorAmount(false)
-    setDisableBtn(true)
-  }, [setOpen])
-
-  const handleClose = useCallback(() => {
-    setOpen(false)
-    reset()
-  }, [setOpen, reset])
-
-  const handleMinus = useCallback(() => {
-    setMinus(!minus);
-  }, [minus]);
 
   const handleAmount = useCallback(({ target: input }) => {
     setAmount(input.value);
@@ -106,36 +118,31 @@ const TransactionForm = ({ open, setOpen, data }) => {
     }
   }, [amount, errorAmount]);
 
+  const handleMinus = useCallback(() => {
+    setMinus(!minus);
+    itemValid(text, errorText);
+    itemValid(amount, errorAmount);
+  }, [minus, amount, errorAmount, text, errorText]);
+
   const handleDate = useCallback((date) => {
     setDate(date);
-    console.log(date);
     itemValid(text, errorText);
     itemValid(amount, errorAmount);
   }, [amount, errorAmount, text, errorText]);
 
-  const handleSave = useCallback(() => {
-    setText('')
-    setAmount(null)
-    setDate(initialDate)
-    setMinus(true)
-    console.log()
-    reset()
-  }, [text, amount, date]);
-
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(text, amount, date);
     const amountNumber = numberCalc(amount);
     const newTransaction = {
       text,
       amount: minus ? -amountNumber : amountNumber,
       date,
     };
-    addTransaction(newTransaction)
-    handleSave()
+    if (action === 'new') addTransaction(newTransaction);
+    if (action === 'edit') updateTransaction(data._id, newTransaction);
+    handleSave();
   };
 
-  const ref = useRef();
   return (
     <ThemeProvider theme={minus ? datePickerExpense : defaultMaterialTheme}>
       <Dialog
