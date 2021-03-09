@@ -161,11 +161,24 @@ const TransactionForm = ({ open, setOpen }) => {
           onClose={handleClose}
           TransitionComponent={Transition}
         >
-          <TopBar handleClose={handleClose} />
-          <form
-            noValidate
-            autoComplete='off'
-            onSubmit={onSubmit}
+          <p>{minus ? 'Expense' : 'Income'}</p>
+          <InputAmount
+            minus={minus}
+            amount={amount}
+            errorAmount={errorAmount}
+            handleAmount={handleAmount}
+            handleMinus={handleMinus}
+          />
+          <InputText
+            label='Description'
+            value={text || ''}
+            error={errorText}
+            errorMsg='Please describe this transaction'
+            onChange={handleText}
+          />
+          <InputDate date={date} handleDate={handleDate}/>
+          <button
+            disabled={disableBtn ? true : false}
           >
             <div>
               <TextField
