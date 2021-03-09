@@ -60,6 +60,13 @@ export default (state, action) => {
         ...state,
         transactions: [...state.transactions],
       };
+    case 'DELETE_TRANSACTION':
+      return {
+        ...state,
+        transactions: state.transactions.filter(
+          transaction => transaction._id !== action.payload
+        )
+      };
     case 'RESET_TRANSACTION':
       return {
         ...state,

@@ -149,6 +149,21 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
+  async function deleteTransaction(id) {
+    try {
+      await axios.delete(`/api/transactions/${id}`);
+      dispatch({
+        type: 'DELETE_TRANSACTION',
+        payload: id
+      });
+    } catch (err) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: err.response.data.error
+      })
+    }
+  }
+
   function resetTransaction() {
     dispatch({
       type: 'RESET_TRANSACTION',
@@ -173,6 +188,7 @@ export const GlobalProvider = ({ children }) => {
         getTransactions,
         addTransaction,
         updateTransaction,
+        deleteTransaction,
         resetTransaction
       }}
     >

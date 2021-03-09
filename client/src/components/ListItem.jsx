@@ -1,5 +1,8 @@
-import React, { useState, useCallback, Fragment } from 'react'
+import React, { useState, useContext, useCallback, Fragment } from 'react'
 import { useSpring, config, animated } from 'react-spring'
+
+// Context
+import { GlobalContext } from '../context/GlobalState'
 
 // Material Ui
 import DeleteSharpIcon from '@material-ui/icons/DeleteSharp'
@@ -11,6 +14,7 @@ import moment from 'moment'
 import TransactionForm from './TransactionForm'
 
 const ListItem = ({ data }) => {
+  const { deleteTransaction } = useContext(GlobalContext);
   const [showMenu, setshowMenu] = useState(false),
         [open, setOpen] = useState(false);
   const [deleted, setDeleted] = useState(false);
@@ -53,6 +57,11 @@ const ListItem = ({ data }) => {
     setshowMenu(!showMenu);
   }, [showMenu]);
 
+  const handleDelete = useCallback((id) => (e) => {
+    deleteTransaction(id);
+    setDeleted(true);
+  }, [deleteTransaction]);
+
   const handleShowForm = useCallback(() => {
     setOpen(true);
   }, [])
@@ -64,7 +73,7 @@ const ListItem = ({ data }) => {
         onClick={handleShowMenu}
       >
         <div style={menuBlock} >
-          <div style={menuBtn} >
+          <div style={menuBtn} onClick={handleDelete(data._id)}>
             <DeleteSharpIcon/>
           </div>
           <div style={menuBtn} onClick={handleShowForm}>
