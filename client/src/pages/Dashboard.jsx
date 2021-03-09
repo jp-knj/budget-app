@@ -1,28 +1,19 @@
-import React, {Fragment} from 'react'
+import React, { useContext, Fragment } from 'react'
+
+// Contexts
+import { GlobalContext } from '../context/GlobalState'
 
 // Components
 import TransactionList from '../components/TransactionList'
+import TotalAmount from '../components/TotalAmount'
 
 const Dashboard = () => {
+  const { transactions } = useContext(GlobalContext)
+  const amounts = transactions.map(transaction => transaction.amount)
   return (
     <Fragment>
       <header className='header'>
-        <section className="budget">
-          <div className="budget_inner">
-              <p className="budget_title">Total Balance</p>
-              <span className="budget_value">5000円</span>
-            <div className='budget_box'>
-              <div className='budget_items'>
-                <p className="budget_title">Income</p>
-                <span className="budget_value-sub">5000円</span>
-              </div>
-              <div className='budget_items'>
-                <p className="budget_title">Expense</p>
-                <span className="budget_value-sub">5000円</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        <TotalAmount amounts={amounts} />
       </header>
       <TransactionList/>
     </Fragment>
