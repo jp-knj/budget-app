@@ -1,7 +1,6 @@
-import React, { useContext, useEffect} from 'react'
+import React, { useContext, useEffect } from 'react'
+import { animated } from 'react-spring'
 import { GlobalContext } from '../context/GlobalState'
-
-import { transitionConfig } from '../utils/animation';
 
 import { CircularProgress } from '@material-ui/core'
 

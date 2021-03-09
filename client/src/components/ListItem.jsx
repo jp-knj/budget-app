@@ -74,10 +74,10 @@ const ListItem = ({ data }) => {
       >
         <div style={menuBlock} >
           <div style={menuBtn} onClick={handleDelete(data._id)}>
-            <DeleteSharpIcon/>
+            <DeleteSharpIcon className="icon-delete"/>
           </div>
           <div style={menuBtn} onClick={handleShowForm}>
-            <EditSharpIcon/>
+            <EditSharpIcon className="icon-edit"/>
           </div>
         </div>
         <div>

@@ -21,7 +21,6 @@ const Sidebar = ({ children }) => {
 
   useEffect(() => {
     token && loadUser();
-    // eslint-disable-next-line
   }, []);
 
   const useStyles = makeStyles(() => ({
@@ -70,7 +69,7 @@ const Sidebar = ({ children }) => {
       <main className="container">
         {children}
       </main>
-      <TransactionForm open={open} setOpen={setOpen} />
+      <TransactionForm open={open} setOpen={setOpen} action='new' />
       <div
         className="btn"
         onClick={handleForm}
