@@ -50,3 +50,20 @@ exports.addTransactions = async (req, res) => {
     }
   }
 };
+
+// @description update a transaction
+// @route       UPDATE /api/transactions/:id
+// @access      Private
+exports.updateTransaction = async (req, res) => {
+  try {
+    const { amount, text, date } = req.body;
+
+    console.log(amount, text, date)
+
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: 'Server Error'
+    })
+  }
+};

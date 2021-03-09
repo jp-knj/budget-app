@@ -134,6 +134,21 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
+  async function updateTransaction(id, transaction) {
+    try {
+      const res = await axios.put(`/api/transactions/${id}`, transaction, config);
+      dispatch({
+        type: 'UPDATE_TRANSACTION',
+        payload: res.data.data
+      });
+    } catch (err) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: err.response.data.error
+      });
+    }
+  }
+
   function resetTransaction() {
     dispatch({
       type: 'RESET_TRANSACTION',
@@ -157,6 +172,7 @@ export const GlobalProvider = ({ children }) => {
         getToken,
         getTransactions,
         addTransaction,
+        updateTransaction,
         resetTransaction
       }}
     >

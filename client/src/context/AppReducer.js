@@ -47,6 +47,19 @@ export default (state, action) => {
         ...state,
         transactions: [...state.transactions, action.payload],
       };
+    case 'UPDATE_TRANSACTION':
+      const { _id, amount, text, date } = action.payload;
+      state.transactions.forEach(transaction => {
+        if (transaction._id === _id) {
+          transaction.amount = amount;
+          transaction.text = text;
+          transaction.date = date;
+        }
+      });
+      return {
+        ...state,
+        transactions: [...state.transactions],
+      };
     case 'RESET_TRANSACTION':
       return {
         ...state,
