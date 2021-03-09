@@ -2,7 +2,7 @@ import React, { useRef, useContext, useState, useCallback } from 'react'
 import { GlobalContext } from '../context/GlobalState'
 import { datePickerExpense, defaultMaterialTheme } from '../utils/colorTheme'
 // Material Ui
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
 import { TextField, InputAdornment, Switch, Dialog, AppBar, Toolbar, IconButton, Slide } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close';
@@ -14,12 +14,16 @@ import DateFnsUtils from '@date-io/date-fns';
 import format from 'date-fns/format';
 
 import moment from 'moment';
+// Components
+import InputAmount from './Input/InputAmount'
+import InputText from './Input/InputText'
+import InputDate from './Input/InputDate'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   textColor: {
     color: '#232C2D',
     opacity: 0.8,
