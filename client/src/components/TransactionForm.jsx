@@ -1,18 +1,16 @@
 import React, { useRef, useContext, useState, useCallback } from 'react'
+// Context
 import { GlobalContext } from '../context/GlobalState'
-import { datePickerExpense, defaultMaterialTheme } from '../utils/colorTheme'
 // Material Ui
 import { makeStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
-import { TextField, InputAdornment, Switch, Dialog, AppBar, Toolbar, IconButton, Slide } from '@material-ui/core'
-import CloseIcon from '@material-ui/icons/Close';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
-
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import format from 'date-fns/format';
-
+import { Dialog, AppBar, Toolbar, IconButton, Slide } from '@material-ui/core'
+import CloseIcon from '@material-ui/icons/Close'
+// Validation
+import { numberValid, numberCalc } from '../utils/format'
+// Theme
+import { datePickerExpense, defaultMaterialTheme } from '../utils/colorTheme'
+// Moment
 import moment from 'moment';
 // Components
 import InputAmount from './Input/InputAmount'
@@ -51,70 +49,36 @@ const TopBar = ({ handleClose }) => {
   );
 };
 
-const TransactionSwitch = withStyles((theme) => ({
-    root: {
-      marginRight: -12,
-    },
-    switchBase: {
-      color: theme.palette.primary.main,
-      '&$checked': {
-        color: theme.palette.primary.main,
-      },
-      '&$checked + $track': {
-        backgroundColor: theme.palette.primary.main,
-      },
-    },
-    thumb: {
-      boxShadow: 'none',
-    },
-    checked: {},
-    track: {
-      backgroundColor: theme.palette.primary.main,
-    },
-}))(Switch);
+const TransactionForm = ({ open, setOpen, data }) => {
+  const { addTransaction } = useContext(GlobalContext)
+  const initialDate = moment()
+  const initialMinus = data && data.amount > 0 ? false : true
 
-const InputDate = ({ date, handleDate }) => {
-  const dateFormat = 'd MMM, yyyy';
-  class LocalizedUtils extends DateFnsUtils {
-    getDatePickerHeaderText(date) {
-      return format(date, dateFormat, { locale: this.locale });
-    }
-  }
-  return (
-    <MuiPickersUtilsProvider utils={LocalizedUtils}>
-      <KeyboardDatePicker
-        id='date'
-        label='Date'
-        value={date}
-        format={dateFormat}
-        onChange={handleDate}
-        KeyboardButtonProps={{ 'aria-label': 'change date' }}
-        fullWidth
-      />
-    </MuiPickersUtilsProvider>
-  );
-};
-
-const TransactionForm = ({ open, setOpen }) => {
-  const { addTransaction } = useContext(GlobalContext);
-
-  const initialDate = moment();
   const [text, setText] = useState(''),
-        [errorText, setErrorText] = useState(false);
-  const [amount, setAmount] = useState(null),
-        [errorAmount, setErrorAmount] = useState(false);
-  const [date, setDate] = useState(initialDate);
-  const [minus, setMinus] = useState(false);
+        [errorText, setErrorText] = useState(false)
+  const [amount, setAmount] = useState(''),
+        [errorAmount, setErrorAmount] = useState(false)
+  const [date, setDate] = useState(initialDate)
+  const [minus, setMinus] = useState(initialMinus)
 
-  const classes = useStyles();
+  const [disableBtn, setDisableBtn] = useState(true)
+
+  const itemValid = (item, errorItem) => {
+    if (!item) setDisableBtn(true);
+    else errorItem ? setDisableBtn(true) : setDisableBtn(false);
+  };
+
+  const reset = useCallback(() => {
+    setOpen(false)
+    setErrorText(false)
+    setErrorAmount(false)
+    setDisableBtn(true)
+  }, [setOpen])
 
   const handleClose = useCallback(() => {
-    setOpen(false);
-  }, [setOpen]);
-
-  const handleFocus = useCallback(() => {
-    ref.current.focus();
-  }, [])
+    setOpen(false)
+    reset()
+  }, [setOpen, reset])
 
   const handleMinus = useCallback(() => {
     setMinus(!minus);
@@ -122,33 +86,53 @@ const TransactionForm = ({ open, setOpen }) => {
 
   const handleAmount = useCallback(({ target: input }) => {
     setAmount(input.value);
+    if (numberValid(input.value)) {
+      setErrorAmount(false);
+      itemValid(text, errorText);
+    } else {
+      setErrorAmount(true);
+      setDisableBtn(true);
+    }
   }, [text, errorText]);
 
   const handleText = useCallback(({ target: input }) => {
     setText(input.value);
+    if (input.value) {
+      setErrorText(false);
+      itemValid(amount, errorAmount);
+    } else {
+      setErrorText(true);
+      setDisableBtn(true);
+    }
   }, [amount, errorAmount]);
 
   const handleDate = useCallback((date) => {
     setDate(date);
+    console.log(date);
+    itemValid(text, errorText);
+    itemValid(amount, errorAmount);
   }, [amount, errorAmount, text, errorText]);
 
   const handleSave = useCallback(() => {
-    setText(text);
-    setAmount(amount);
-    setDate(date);
+    setText('')
+    setAmount(null)
+    setDate(initialDate)
+    setMinus(true)
+    console.log()
+    reset()
   }, [text, amount, date]);
 
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(text, amount, date);
-    const amountNumber = amount;
+    const amountNumber = numberCalc(amount);
     const newTransaction = {
       text,
-      amount: amountNumber,
+      amount: minus ? -amountNumber : amountNumber,
       date,
     };
-    addTransaction(newTransaction);
-    handleSave();
+    addTransaction(newTransaction)
+    handleSave()
   };
 
   const ref = useRef();
