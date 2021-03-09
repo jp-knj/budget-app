@@ -1,6 +1,8 @@
 import React, { useContext, useEffect} from 'react'
 import { GlobalContext } from '../context/GlobalState'
 
+import { transitionConfig } from '../utils/animation';
+
 import { CircularProgress } from '@material-ui/core';
 
 const TransactionList = () => {
