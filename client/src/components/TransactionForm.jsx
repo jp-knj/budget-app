@@ -153,13 +153,18 @@ const TransactionForm = ({ open, setOpen }) => {
 
   const ref = useRef();
   return (
-    <>
-      <ThemeProvider theme={minus ? datePickerExpense : defaultMaterialTheme}>
-        <Dialog
-          fullScreen
-          open={open}
-          onClose={handleClose}
-          TransitionComponent={Transition}
+    <ThemeProvider theme={minus ? datePickerExpense : defaultMaterialTheme}>
+      <Dialog
+        fullScreen
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <TopBar handleClose={handleClose} />
+        <form
+          noValidate
+          autoComplete='off'
+          onSubmit={onSubmit}
         >
           <p>{minus ? 'Expense' : 'Income'}</p>
           <InputAmount
@@ -180,45 +185,11 @@ const TransactionForm = ({ open, setOpen }) => {
           <button
             disabled={disableBtn ? true : false}
           >
-            <div>
-              <TextField
-                id='amount'
-                inputRef={ref}
-                label='Amount'
-                required='true'
-                onChange={handleAmount}
-                InputProps={{
-                  className: `${classes.input} ${
-                    minus ? classes.inputMinus : classes.inputPlus
-                  }`,
-                    startAdornment: (
-                  <InputAdornment position='start' style={{ margin: 0 }}>
-                    {minus ? <RemoveIcon /> : <AddIcon />}
-                  </InputAdornment>
-                  ),
-                }}
-              />
-              <TransactionSwitch
-                checked={minus}
-                tabIndex='-1'
-                onChange={handleMinus}
-                onClick={handleFocus}
-                inputProps={{ 'aria-label': 'secondary checkbox' }}
-              />
-            </div>
-            <TextField
-              id='Description'
-              label='Description'
-              fullWidth
-              required='true'
-              onChange={handleText}
-            />
-            <InputDate />
-            <button>Save</button>
-          </form>
-        </Dialog>
-      </ThemeProvider>
-    </>
+            Save
+          </button>
+        </form>
+      </Dialog>
+    </ThemeProvider>
   )
 }
 
