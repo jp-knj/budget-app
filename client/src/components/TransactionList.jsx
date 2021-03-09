@@ -6,8 +6,9 @@ import { transitionConfig } from '../utils/animation';
 import { CircularProgress } from '@material-ui/core';
 
 const TransactionList = () => {
-  const { transactions, getTransactions, loading } = useContext(GlobalContext);
-  const lists = transactions;
+  const { transactions, getTransactions, resetTransaction, loading } = useContext(GlobalContext)
+  const lists = transactions
+
   useEffect(() => {
     getTransactions();
   }, []);

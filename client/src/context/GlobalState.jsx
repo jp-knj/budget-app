@@ -134,6 +134,12 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
+  function resetTransaction() {
+    dispatch({
+      type: 'RESET_TRANSACTION',
+    })
+  }
+
   return (
     <GlobalContext.Provider
       value={{
@@ -150,7 +156,8 @@ export const GlobalProvider = ({ children }) => {
         loadUser,
         getToken,
         getTransactions,
-        addTransaction
+        addTransaction,
+        resetTransaction
       }}
     >
       {children}
