@@ -6,7 +6,6 @@ const Transaction = require('../models/Transaction');
 exports.getTransactions = async (req, res) => {
   try {
     const transactions = await Transaction.find({ user: req.user.id });
-    console.log(transactions)
     return res.status(200).json({
       success: true,
       count: transactions.length,
@@ -58,7 +57,22 @@ exports.updateTransaction = async (req, res) => {
   try {
     const { amount, text, date } = req.body;
 
-    console.log(amount, text, date)
+    const transaction = await Transaction.findByIdAndUpdate(
+      req.params.id,
+      { amount, text, date },
+      { new: true }
+    );
+
+    if (!transaction) {
+      return res.status(404).json({
+        success: false,
+        error: 'No transaction found'
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      data: transaction,
+    });
 
   } catch (err) {
     return res.status(500).json({
