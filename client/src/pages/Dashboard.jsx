@@ -6,6 +6,7 @@ import { GlobalContext } from '../context/GlobalState'
 // Components
 import TransactionList from '../components/TransactionList'
 import TotalAmount from '../components/TotalAmount'
+import IncExpAmount from '../components/IncExpAmount'
 
 const Dashboard = () => {
   const { transactions } = useContext(GlobalContext)
@@ -14,6 +15,7 @@ const Dashboard = () => {
     <Fragment>
       <header className='header'>
         <TotalAmount amounts={amounts} />
+        <IncExpAmount amounts={amounts} />
       </header>
       <TransactionList/>
     </Fragment>

@@ -30,7 +30,7 @@ const IncExpAmount = ({ amounts }) => {
   return (
     <>
       {lists.map(({ title, prefix, start, end }) => (
-        <div className='budget_items' key={id()}>
+        <div className='budget_item' key={id()}>
           <p className="budget_title">{title}</p>
           <CountUp
             className='budget_value-sub'
