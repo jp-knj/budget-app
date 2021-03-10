@@ -36,6 +36,12 @@ export default (state, action) => {
         ...state,
         error: action.payload
       }
+    case 'GET_TRANSACTION':
+      return {
+        ...state,
+        loading: false,
+        transactions: action.payload,
+      }
     case 'GET_TRANSACTIONS':
       return {
         ...state,
