@@ -14,20 +14,40 @@ const Transaction = () => {
     <Fragment>
       <div className='header'>
         <section className="budget">
-          <Tabs variant='fullWidth' aria-label='tabs' className="border_btm">
-            <Tab label="Day"/>
-            <Tab label="Week"/>
-            <Tab label="Month"/>
-            <Tab label="Year"/>
-          </Tabs>
-          <PieChart/>
-          <ThemeProvider>
-            <ButtonGroup fullWidth>
-              <Button>All</Button>
-              <Button>Income</Button>
-              <Button>Expense</Button>
-            </ButtonGroup>
-          </ThemeProvider>
+          <NewTabs
+            types={timeFilters}
+            value={value}
+            setValue={setValue}
+          />
+          {selected === 'all' ? (
+          <TotalAmount amounts={amounts} text={`${timeFilters[value]}ly balance`}/>
+          ) : (
+          <div className='chart'>
+            <div className='chart_pie'>
+              <div className='chart_box'>
+                <p className='chart_percent'>{noData ? 0 : ratio}</p>
+                <span>%</span>
+              </div>
+              <div className='chart_box'>
+                <PieChart
+                  data={noData ? [0, 100] : data}
+                  width={width}
+                  height={height}
+                  outerRadius={outerRadius}
+                  innerRadius={innerRadius}
+                />
+              </div>
+            </div>
+            <div className="">
+              <IncExpAmount amounts={amounts}/>
+            </div>
+          </div>
+          )}
+          <Selector
+            types={transFilters}
+            selected={selected}
+            setSelected={setSelected}
+          />
         </section>
       </div>
       <TransactionList />
@@ -35,4 +55,4 @@ const Transaction = () => {
   )
 }
 
-export default Transaction
+export default Transactions
