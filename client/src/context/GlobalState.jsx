@@ -164,6 +164,21 @@ export const GlobalProvider = ({ children }) => {
     }
   }
 
+  async function getTransaction(query) {
+    try {
+      const res = await axios.get(`/api/transactions/${query}`);
+      dispatch({
+        type: 'GET_TRANSACTION',
+        payload: res.data.data
+      });
+    } catch (err) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: err.response.data
+      });
+    }
+  }
+
   function resetTransaction() {
     dispatch({
       type: 'RESET_TRANSACTION',
@@ -189,7 +204,8 @@ export const GlobalProvider = ({ children }) => {
         addTransaction,
         updateTransaction,
         deleteTransaction,
-        resetTransaction
+        resetTransaction,
+        getTransaction
       }}
     >
       {children}
