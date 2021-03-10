@@ -1,4 +1,32 @@
 const Transaction = require('../models/Transaction');
+const moment = require('moment');
+// @description get certain range of transactions
+// @route       GET /api/transactions/:query
+// @access      Private
+exports.getTransaction = async (req, res) => {
+  try {
+    const { query } = req.params;
+    const transactions = await Transaction.find({
+      user: req.user.id,
+      date: {
+        $gte: moment().startOf(query),
+        $lte: moment().endOf(query),
+      },
+    });
+    console.log(query);
+    console.log(transactions);
+    return res.status(200).json({
+      success: true,
+      count: transactions.length,
+      data: transactions,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: 'Server Error'
+    });
+  }
+};
 
 // @description get all transactions
 // @route       GET /api/transactions
@@ -57,12 +85,14 @@ exports.updateTransaction = async (req, res) => {
   try {
     const { amount, text, date } = req.body;
 
+    console.log(date);
     const transaction = await Transaction.findByIdAndUpdate(
       req.params.id,
       { amount, text, date },
       { new: true }
     );
 
+    console.log(transaction)
     if (!transaction) {
       return res.status(404).json({
         success: false,
