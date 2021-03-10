@@ -1,11 +1,21 @@
-import React, { Fragment } from 'react'
+import React, { useState, useContext, useCallback, useEffect, Fragment } from 'react'
+import { useTransition, useSpring, config, animated } from 'react-spring'
+import { GlobalContext } from '../context/GlobalState'
+import { checkRecent, sortDateAmount } from '../utils/calculation'
 
 // Components
-import TransactionList from '../components/TransactionList'
+import TotalAmount from '../components/TotalAmount'
+import IncExpAmount from '../components/IncExpAmount'
+import Filter from '../components/Filter'
 import PieChart from '../components/Chart/PieChart'
+import NewTabs from '../components/NewTabs'
+import ListItem from '../components/ListItem'
+
+// Utils
+import { transitionConfig } from '../utils/animation'
+import { whiteTheme } from '../utils/colorTheme'
 
 // Material UI
-import { Tabs, Tab } from '@material-ui/core'
 import { ThemeProvider } from "@material-ui/styles"
 import { Button, ButtonGroup, CircularProgress } from '@material-ui/core'
 
@@ -107,7 +117,6 @@ const Transactions = () => {
     resetTransaction()
   }, [value]);
 
-const Transaction = () => {
   return (
     <Fragment>
       <div className='header'>
@@ -148,7 +157,31 @@ const Transaction = () => {
           />
         </section>
       </div>
-      <TransactionList />
+      <section className='transaction'>
+        <Filter
+          value={value}
+          text="today"
+          sortLatest={sortLatest}
+          sortDsc={sortDsc}
+          handleSortDate={handleSortDate}
+          handleSortAmount={handleSortAmount}
+        />
+          {lists.length > 0 ? (
+              <ul className='transaction_lists'>
+            {lists.map((item) => (
+                  <animated.div>
+                    <ListItem data={item} date/>
+                  </animated.div>
+                ))}
+              </ul>
+        ) : (
+                <ul className='transaction_lists'>
+                  {loading
+                    ? (<CircularProgress/>)
+                    : (<p>No recent transaction</p>)}
+                </ul>
+              )}
+          </section>
     </Fragment>
   )
 }

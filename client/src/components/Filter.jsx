@@ -32,14 +32,14 @@ const Filter = ({ value, sortLatest, sortDsc, handleSortDate, handleSortAmount, 
           <Typography variant='body2' style={alignItem}>
             {sortText ? sortText : 'date'}
           </Typography>
-          {sortLatest ? <ArrowDropDownSharpIcon /> : <ArrowDropUpSharpIcon />}
+          {sortLatest ? <ArrowDropUpSharpIcon /> : <ArrowDropDownSharpIcon />}
         </div>
       )}
       <div style={sortItem} onClick={handleSortAmount}>
         <Typography variant='body2' style={alignItem}>
           Amount
         </Typography>
-        {sortDsc ? <ArrowDropDownSharpIcon /> : <ArrowDropUpSharpIcon />}
+        {sortDsc ? <ArrowDropUpSharpIcon /> : <ArrowDropDownSharpIcon />}
       </div>
     </div>
   );
