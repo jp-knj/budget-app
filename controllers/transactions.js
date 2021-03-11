@@ -1,5 +1,6 @@
 const Transaction = require('../models/Transaction');
 const moment = require('moment');
+
 // @description get certain range of transactions
 // @route       GET /api/transactions/:query
 // @access      Private
@@ -13,8 +14,6 @@ exports.getTransaction = async (req, res) => {
         $lte: moment().endOf(query),
       },
     });
-    console.log(query);
-    console.log(transactions);
     return res.status(200).json({
       success: true,
       count: transactions.length,
@@ -33,7 +32,9 @@ exports.getTransaction = async (req, res) => {
 // @access      Private
 exports.getTransactions = async (req, res) => {
   try {
+    console.log(req.user.id);
     const transactions = await Transaction.find({ user: req.user.id });
+
     return res.status(200).json({
       success: true,
       count: transactions.length,
@@ -53,7 +54,6 @@ exports.getTransactions = async (req, res) => {
 exports.addTransactions = async (req, res) => {
   try {
     const { text, amount } = req.body;
-    console.log(text, amount);
     const transaction = await Transaction.create(req.body);
     transaction.user = req.user.id;
     transaction.save();
@@ -85,14 +85,12 @@ exports.updateTransaction = async (req, res) => {
   try {
     const { amount, text, date } = req.body;
 
-    console.log(date);
     const transaction = await Transaction.findByIdAndUpdate(
       req.params.id,
       { amount, text, date },
       { new: true }
     );
 
-    console.log(transaction)
     if (!transaction) {
       return res.status(404).json({
         success: false,
@@ -124,7 +122,6 @@ exports.deleteTransactions = async (req, res) => {
         error: 'No transaction found'
       });
     }
-    console.log(transaction)
     await transaction.remove();
     return res.status(200).json({
       success: true,

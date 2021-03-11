@@ -21,7 +21,7 @@ exports.registerUser = async (req, res) => {
     // if have exist email, show a message
     if (user) return res.status(400).send('This email has already been used.');
 
-    // register new account
+    // register new account``
     user = await User.create({ name, email, password });
 
     // generated hashed password to save
@@ -54,11 +54,12 @@ exports.registerUser = async (req, res) => {
 // @description login user
 // @route       POST /api/auth
 // @access      Public
-exports.loginUser = async (req, res) => {
+exports.loginUser = async (req, res, next) => {
+
   try {
     const { email, password } = req.body;
-    const { error } = loginValidation(req.body);
 
+    const { error } = loginValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     const user = await User.findOne({ email });
@@ -67,6 +68,7 @@ exports.loginUser = async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) return res.status(400).send('Invalid password')
 
+    // const token = jwt.sign({ id: user.id }, config.get('jwtSecret'));
     const token = user.generateAuthToken();
     res.header('x-auth-token', token);
 
@@ -91,7 +93,7 @@ exports.loginUser = async (req, res) => {
 // @description get a user data
 // @route       GET /api/user
 // @access      Private
-exports.loadUser = async (req, res) => {
+exports.loadUser = async (req, res, next) => {
   const user = await User.findById(req.user.id).select('-password');
   // return res.send(user);
   return res.status(200).json({
