@@ -12,15 +12,15 @@ import moment from 'moment'
 
 // Components
 import TransactionForm from './TransactionForm'
-
-const ListItem = ({ data }) => {
+const ListItem = ({ data, date }) => {
   const { deleteTransaction } = useContext(GlobalContext);
   const [showMenu, setshowMenu] = useState(false),
         [open, setOpen] = useState(false);
   const [deleted, setDeleted] = useState(false);
-  const formatDate = (date) => moment(date).format('D MMM, YYYY')
   const sign = !data.amount ? null : data.amount > 0 ? '+' : '',
         color = !data.amount ? 'zero' : data.amount > 0 ? 'positive' : 'negative';
+  const formatDate = (date) => moment(date).format('D MMM, YYYY'),
+        formatRelative = (date) => moment(date).fromNow();
 
   const buttonWidth = 70,
         paddingLeft = 15,
@@ -82,7 +82,11 @@ const ListItem = ({ data }) => {
         </div>
         <div>
           <h3>{data.text}</h3>
-          <p>{formatDate(data.createdAt)}</p>
+          {date && (
+          <p>
+            {date === 'relative' ? formatRelative(data.date) : formatDate(data.date)}
+          </p>
+          )}
         </div>
         <div className={`${color}`}>
           {sign}{data.amount} 円
