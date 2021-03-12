@@ -1,6 +1,9 @@
 .budget {
+  margin-bottom: 30px;
+  padding-top: 30px;
   &_inner {
-    padding: 35px 0;
+    padding-top: 30px;
+    padding-bottom: 40px;
     margin: 0 auto;
     width: $content-width;
   }
@@ -8,7 +11,7 @@
     @extend .font-text;
     color: $color-white;
     opacity: .5;
-    margin-bottom: 10px;
+    margin: 10px 0;
     text-transform: uppercase;
     &-sub {
       @extend .heading-tertiary;
@@ -20,14 +23,19 @@
     line-height: 1.43;
     letter-spacing: 3px;
   &-sub {
+    text-align: start;
     color: $color-white;
     @extend .heading-tertiary;
     letter-spacing: 3px;
    }
   }
   &_box {
-    margin-top: 30px;
     display: flex;
+    justify-content: space-around;
+  }
+  &_content {
+    display: flex;
+    flex-direction: column;
   }
   &_items {
     width : calc(100% / 2);

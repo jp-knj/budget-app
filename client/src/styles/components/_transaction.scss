@@ -1,6 +1,6 @@
 .transaction {
     width: $content-width;
-    margin: 0 auto;
+    margin: 25px auto 0;
   &_header {
     display: flex;
     flex-direction: row;
@@ -11,8 +11,8 @@
     color: $color-primary-light;
     text-transform: uppercase;
   }
-
   &_lists {
+    margin-top: 10px;
     overflow: hidden;
     li {
       padding: 20px 0;
@@ -34,5 +34,10 @@
     .positive {
       color: $color-primary;
     }
+  }
+  &_circular {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

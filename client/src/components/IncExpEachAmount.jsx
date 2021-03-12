@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import CountUp from 'react-countup'
 import { v4 as id } from 'uuid'
 
-const IncExpAmount = ({ amounts }) => {
+const IncExpEachAmount = ({ amounts }) => {
   const income = +amounts
     .filter((item) => item > 0)
     .reduce((acc, item) => (acc += item), 0)
@@ -28,9 +28,9 @@ const IncExpAmount = ({ amounts }) => {
   ];
 
   return (
-    <div className='budget_box'>
+    <div className='budget_content'>
       {lists.map(({ title, prefix, start, end }) => (
-      <div className='budget_items' key={id()}>
+      <div key={id()}>
         <p className="budget_title">{title}</p>
         <CountUp
           className='budget_value-sub'
@@ -46,4 +46,4 @@ const IncExpAmount = ({ amounts }) => {
   );
 };
 
-export default IncExpAmount;
+export default IncExpEachAmount
