@@ -64,8 +64,7 @@ const Statistics = () => {
     <>
       <div className="header">
       <DateTabs types={timeFilters} value={value} setValue={setValue} />
-
-      <section className="budget">
+        <section className="budget" style={{ height: '300px' }}>
           {combinedLists.length > 0 ? (
             <BarChart
               data={combinedLists}
@@ -73,34 +72,34 @@ const Statistics = () => {
               select={value}
               height='180'
               width={window.innerWidth > 320 ? 350 : 288}
-            />
+              />
           ) : (
             <p className='text-white-s vertical-align'>
               No transaction
             </p>
           )}
       </section>
-
-      <div className='transaction_list'>
+      </div>
+      <section className='transaction'>
+        <div className='transaction_lists'>
         {combinedLists.length > 0 ? (
-            <ul className='list'>
-              {console.log(combinedLists)}
-              {combinedLists.map((item) => (
-              <animated.div>
-                <List transaction={item}/>
-              </animated.div>
-              ))}
-          </ul>
+        <ul className='list'>
+          {combinedLists.map((item) => (
+          <animated.div>
+            <List transaction={item}/>
+          </animated.div>
+          ))}
+        </ul>
         ) : (
-          <div className='list-status'>
-            {loading
-              ? (<CircularProgress color='white' />)
-              : (<p>No transaction of the {timeFilters[value]}</p>)
-            }
-          </div>
+        <div className='transaction_circular'>
+          {loading
+            ? (<CircularProgress color='white' />)
+            : (<p>No transaction of the {timeFilters[value]}</p>)
+          }
+        </div>
         )}
         </div>
-      </div>
+      </section>
     </>
   );
 };
