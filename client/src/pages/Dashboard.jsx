@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, Fragment, useCallback } from 'react'
-import { useTransition, animated } from 'react-spring'
+import { animated } from 'react-spring'
 // Contexts
 import { GlobalContext } from '../context/GlobalState'
 
@@ -26,12 +26,6 @@ const Dashboard = () => {
   const lists = transactions
     .filter(({ date }) => checkRecent(date))
     .sort((a, b) => sortDateAmount(a, b, sortColumn, sortLatest, sortDsc));
-
-  const transition = useTransition(
-    lists,
-    list => list._id,
-    transitionConfig(86, 200),
-  );
 
   const handleSortDate = useCallback(() => {
     setSortLatest(!sortLatest);
@@ -77,10 +71,11 @@ const Dashboard = () => {
           ))}
           </ul>
           ) : (
-          <div className='list-status'>
-            {loading
+          <div className='transaction_circular'>
+          {loading
             ? (<CircularProgress color='primary' />)
-            : (<p>No recent transaction</p>)}
+            : (<p>No recent transaction</p>)
+          }
           </div>
         )}
       </section>

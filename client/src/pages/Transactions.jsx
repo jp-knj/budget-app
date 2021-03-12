@@ -1,10 +1,9 @@
 import React, { useState, useContext, useCallback, useEffect, Fragment } from 'react'
-import { useTransition, useSpring, config, animated } from 'react-spring'
+import { animated } from 'react-spring'
 import { GlobalContext } from '../context/GlobalState'
 
 // Components
 import TotalAmount from '../components/TotalAmount'
-import IncExpAmount from '../components/IncExpAmount'
 import IncExpEachAmount from '../components/IncExpEachAmount'
 import Filter from '../components/Filter'
 import PieChart from '../components/Chart/PieChart'
@@ -97,12 +96,6 @@ const Transactions = () => {
     .filter(({ amount }) => filterAmount(amount, selected))
     .sort((a, b) => sortDateAmount(a, b, sortColumn, sortLatest, sortDsc))
 
-  const transition = useTransition(
-    lists,
-    list => list._id,
-    transitionConfig(86, 100),
-  );
-
   const handleSortDate = useCallback(() => {
     setSortLatest(!sortLatest);
     setSortColum('date');
@@ -172,11 +165,11 @@ const Transactions = () => {
           ))}
         </ul>
         ) : (
-        <ul className='transaction_lists'>
+        <div className='transaction_circular'>
           {loading
           ? (<CircularProgress/>)
           : (<p>No recent transaction</p>)}
-        </ul>
+        </div>
           )}
       </section>
     </Fragment>
