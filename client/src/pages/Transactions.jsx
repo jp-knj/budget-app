@@ -1,19 +1,20 @@
 import React, { useState, useContext, useCallback, useEffect, Fragment } from 'react'
 import { useTransition, useSpring, config, animated } from 'react-spring'
 import { GlobalContext } from '../context/GlobalState'
-import { checkRecent, sortDateAmount } from '../utils/calculation'
 
 // Components
 import TotalAmount from '../components/TotalAmount'
 import IncExpAmount from '../components/IncExpAmount'
+import IncExpEachAmount from '../components/IncExpEachAmount'
 import Filter from '../components/Filter'
 import PieChart from '../components/Chart/PieChart'
-import NewTabs from '../components/NewTabs'
+import DateTabs from '../components/DateTabs'
 import ListItem from '../components/ListItem'
 
 // Utils
 import { transitionConfig } from '../utils/animation'
 import { whiteTheme } from '../utils/colorTheme'
+import { filterAmount, sortDateAmount } from '../utils/calculation'
 
 // Material UI
 import { ThemeProvider } from "@material-ui/styles"
@@ -93,8 +94,8 @@ const Transactions = () => {
     innerRadius = outerRadius - 6;
 
   const lists = transactions
-    .filter(({ date }) => checkRecent(date))
-    .sort((a, b) => sortDateAmount(a, b, sortColumn, sortLatest, sortDsc));
+    .filter(({ amount }) => filterAmount(amount, selected))
+    .sort((a, b) => sortDateAmount(a, b, sortColumn, sortLatest, sortDsc))
 
   const transition = useTransition(
     lists,
@@ -120,13 +121,12 @@ const Transactions = () => {
   return (
     <Fragment>
       <div className='header'>
-        <section className="budget">
-          <NewTabs
-            types={timeFilters}
-            value={value}
-            setValue={setValue}
-          />
-          {selected === 'all' ? (
+        <DateTabs
+          types={timeFilters}
+          value={value}
+          setValue={setValue}
+        />
+        { selected === 'all' ? (
           <TotalAmount amounts={amounts} text={`${timeFilters[value]}ly balance`}/>
           ) : (
           <div className='chart'>
@@ -145,9 +145,7 @@ const Transactions = () => {
                 />
               </div>
             </div>
-            <div className="">
-              <IncExpAmount amounts={amounts}/>
-            </div>
+              <IncExpEachAmount amounts={amounts}/>
           </div>
           )}
           <Selector
@@ -155,7 +153,6 @@ const Transactions = () => {
             selected={selected}
             setSelected={setSelected}
           />
-        </section>
       </div>
       <section className='transaction'>
         <Filter
@@ -166,22 +163,22 @@ const Transactions = () => {
           handleSortDate={handleSortDate}
           handleSortAmount={handleSortAmount}
         />
-          {lists.length > 0 ? (
-              <ul className='transaction_lists'>
-            {lists.map((item) => (
-                  <animated.div>
-                    <ListItem data={item} date/>
-                  </animated.div>
-                ))}
-              </ul>
+        {lists.length > 0 ? (
+        <ul className='transaction_lists'>
+          {lists.map((item) => (
+          <animated.div>
+            <ListItem data={item} date='relative'/>
+          </animated.div>
+          ))}
+        </ul>
         ) : (
-                <ul className='transaction_lists'>
-                  {loading
-                    ? (<CircularProgress/>)
-                    : (<p>No recent transaction</p>)}
-                </ul>
-              )}
-          </section>
+        <ul className='transaction_lists'>
+          {loading
+          ? (<CircularProgress/>)
+          : (<p>No recent transaction</p>)}
+        </ul>
+          )}
+      </section>
     </Fragment>
   )
 }

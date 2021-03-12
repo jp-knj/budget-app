@@ -1,19 +1,18 @@
-import React, { useState, useEffect, useContext } from 'react'
-
-import { GlobalContext } from '../context/GlobalState'
-// Utils
-import { sortAmountAsc } from '../utils/calculation'
-// libs
-import { v4 as id } from 'uuid'
-import moment from 'moment'
-// Components
-import NewTabs from '../components/NewTabs'
+import React, { useState, useEffect, useContext } from 'react';
+import { Transition, animated } from 'react-spring';
+import moment from 'moment';
+import { v4 as id } from 'uuid';
+import { GlobalContext } from '../context/GlobalState';
+import { sortAmountAsc } from '../utils/calculation';
+import DateTabs from '../components/DateTabs'
+import List from '../components/List'
 import BarChart from '../components/Chart/BarChart'
+import { CircularProgress } from '@material-ui/core';
 
 const Statistics = () => {
   const { loading, transactions, getTransactions, resetTransaction } = useContext(GlobalContext);
-  const [value, setValue] = useState(0)
-  const timeFilters = ['week', 'month', 'year']
+  const [value, setValue] = useState(0);
+  const timeFilters = ['week', 'month', 'year'];
   const allKeys = ['income', 'expense'];
   const combinedLists = [];
   const group = [
@@ -45,7 +44,6 @@ const Statistics = () => {
         : amount > 0
         ? (result[format(date)].income += amount)
         : (result[format(date)].expense += amount);
-
       return result;
     }, {})
   );
@@ -58,14 +56,17 @@ const Statistics = () => {
   ));
 
   useEffect(() => {
-    resetTransaction()
-    getTransactions()
+    resetTransaction();
+    getTransactions();
   }, []);
+
   return (
-    <div className='header'>
+    <>
+      <div className="header">
+      <DateTabs types={timeFilters} value={value} setValue={setValue} />
+
       <section className="budget">
-        <NewTabs types={timeFilters} value={value} setValue={setValue} />
-        {combinedLists.length > 0 ? (
+          {combinedLists.length > 0 ? (
             <BarChart
               data={combinedLists}
               keys={allKeys}
@@ -74,12 +75,34 @@ const Statistics = () => {
               width={window.innerWidth > 320 ? 350 : 288}
             />
           ) : (
-            <p >
+            <p className='text-white-s vertical-align'>
               No transaction
             </p>
           )}
       </section>
-    </div>
-  )
-}
+
+      <div className='transaction_list'>
+        {combinedLists.length > 0 ? (
+            <ul className='list'>
+              {console.log(combinedLists)}
+              {combinedLists.map((item) => (
+              <animated.div>
+                <List transaction={item}/>
+              </animated.div>
+              ))}
+          </ul>
+        ) : (
+          <div className='list-status'>
+            {loading
+              ? (<CircularProgress color='white' />)
+              : (<p>No transaction of the {timeFilters[value]}</p>)
+            }
+          </div>
+        )}
+        </div>
+      </div>
+    </>
+  );
+};
+
 export default Statistics
