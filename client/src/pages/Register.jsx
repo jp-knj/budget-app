@@ -62,7 +62,10 @@ const Register = () => {
           value={password}
           onChange={handleChange}
         />
-        <button onClick={handleSubmit}>Register</button>
+      <button
+        className="button-secondary"
+        onClick={handleSubmit}
+      >Register</button>
       </form>
   )
 }

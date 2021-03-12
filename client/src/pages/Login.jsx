@@ -15,12 +15,10 @@ const Login = () => {
       e.preventDefault();
       loginUser({ email, password });
     },
-    // eslint-disable-next-line
     [ email, password]
   );
 
   const handleChange = useCallback((e) => {
-    // eslint-disable-next-line
     switch (e.target.id) {
       case 'Email':
         setEmail(e.target.value);
@@ -51,7 +49,12 @@ const Login = () => {
         value={password}
         onChange={handleChange}
       />
-      <button onClick={handleSubmit}>Login</button>
+      <button
+        className='button-secondary'
+        onClick={handleSubmit}
+      >
+        Login
+      </button>
     </form>
   )
 }

@@ -1,20 +1,38 @@
-.btn {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  bottom: 10px;
-  right: 10px;
-  border-radius: 50%;
-  height: 62px;
-  width: 62px;
-  cursor: pointer;
-  background-color: $color-primary;
+.button{
+    &-primary {
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      bottom: 10px;
+      right: 10px;
+      border-radius: 50%;
+      height: 62px;
+      width: 62px;
+      cursor: pointer;
+      background-color: $color-primary;
+    &:hover {
+      opacity: .8;
+    }
+  }
 
-  &:hover {
-    opacity: .8;
+  &-secondary {
+    margin-top: 10px;
+    background-color: $color-primary;
+    border-radius: 25px;
+    height: 40px;
+    color: $color-white;
+    border: none;
+    cursor: pointer;
+    &:hover {
+      opacity: .8;
+    }
+    &:disabled {
+      opacity: .3;
+    }
   }
 }
+
 
 .tab-line {
   color: white;

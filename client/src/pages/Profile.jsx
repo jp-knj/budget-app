@@ -154,6 +154,7 @@ const Profile = () => {
         ))}
         {buttons.map(({ text, state }, index) => (
           <button
+            className="button-secondary"
             key={text}
             style={{ marginTop: !index && '5%' }}
             disabled={state ? true : false}
