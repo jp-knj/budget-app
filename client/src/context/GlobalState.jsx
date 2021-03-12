@@ -1,7 +1,7 @@
-import React, { createContext, useReducer } from 'react'
-import axios from 'axios'
-import jwtDecode from "jwt-decode"
-import AppReducer from './AppReducer'
+import React, { createContext, useReducer } from 'react';
+import axios from 'axios';
+import jwtDecode from "jwt-decode";
+import AppReducer from './AppReducer';
 
 const initialState = {
   users: [],
@@ -11,10 +11,8 @@ const initialState = {
   loading: true
 };
 
-// Create context
 export const GlobalContext = createContext(initialState);
 
-// Provider context
 export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
@@ -32,11 +30,95 @@ export const GlobalProvider = ({ children }) => {
   }
 
   axios.defaults.headers.common["x-auth-token"] = getToken();
+
   const config = {
     headers: { 'Content-Type': 'application/json' },
   };
 
-  // Action
+  async function getTransaction(query) {
+    try {
+      const res = await axios.get(`/api/transactions/${query}`);
+      dispatch({
+        type: 'GET_TRANSACTION',
+        payload: res.data.data
+      });
+    } catch (err) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: err.response.data
+      });
+    }
+  }
+
+  async function getTransactions() {
+    try {
+      const res = await axios.get('/api/transactions');
+      // console.log(res)
+      dispatch({
+        type: 'GET_TRANSACTIONS',
+        payload: res.data.data
+      });
+    } catch (err) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: err.response
+      });
+    }
+  }
+
+  async function deleteTransaction(id) {
+    try {
+      await axios.delete(`/api/transactions/${id}`);
+      dispatch({
+        type: 'DELETE_TRANSACTION',
+        payload: id
+      });
+    } catch (err) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: err.response.data.error
+      })
+    }
+  }
+
+  async function addTransaction(transaction) {
+    try {
+      const res = await axios.post('/api/transactions', transaction, config);
+      dispatch({
+        type: 'ADD_TRANSACTION',
+        payload: res.data.data
+      });
+    } catch (err) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        // err.response.status: 400
+        // err.response.data: { success: false, error: '...' }
+        payload: err.response.data.error
+      });
+    }
+  }
+
+  async function updateTransaction(id, transaction) {
+    try {
+      const res = await axios.put(`/api/transactions/${id}`, transaction, config);
+      dispatch({
+        type: 'UPDATE_TRANSACTION',
+        payload: res.data.data
+      });
+    } catch (err) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: err.response.data.error
+      });
+    }
+  }
+
+  function resetTransaction() {
+    dispatch({
+      type: 'RESET_TRANSACTION',
+    })
+  }
+
   async function registerUser(user) {
     try {
       const res = await axios.post('/api/users', user, config);
@@ -47,7 +129,7 @@ export const GlobalProvider = ({ children }) => {
     } catch (err) {
       dispatch({
         type: 'LOGIN_ERROR',
-        payload: err.response
+        payload: err.response.data
       });
     }
   }
@@ -103,88 +185,6 @@ export const GlobalProvider = ({ children }) => {
     });
   }
 
-  async function getTransactions() {
-    try {
-      const res = await axios.get('/api/transactions');
-      // console.log(res)
-      dispatch({
-        type: 'GET_TRANSACTIONS',
-        payload: res.data.data
-      });
-    } catch (err) {
-      dispatch({
-        type: 'TRANSACTION_ERROR',
-        payload: err.response
-      });
-    }
-  }
-
-  async function addTransaction(transaction) {
-    try {
-      const res = await axios.post('/api/transactions', transaction, config);
-      dispatch({
-        type: 'ADD_TRANSACTION',
-        payload: res.data.data
-      });
-    } catch (err) {
-      dispatch({
-        type: 'TRANSACTION_ERROR',
-        payload: err.response.data.error
-      });
-    }
-  }
-
-  async function updateTransaction(id, transaction) {
-    try {
-      const res = await axios.put(`/api/transactions/${id}`, transaction, config);
-      dispatch({
-        type: 'UPDATE_TRANSACTION',
-        payload: res.data.data
-      });
-    } catch (err) {
-      dispatch({
-        type: 'TRANSACTION_ERROR',
-        payload: err.response.data.error
-      });
-    }
-  }
-
-  async function deleteTransaction(id) {
-    try {
-      await axios.delete(`/api/transactions/${id}`);
-      dispatch({
-        type: 'DELETE_TRANSACTION',
-        payload: id
-      });
-    } catch (err) {
-      dispatch({
-        type: 'TRANSACTION_ERROR',
-        payload: err.response.data.error
-      })
-    }
-  }
-
-  async function getTransaction(query) {
-    try {
-      const res = await axios.get(`/api/transactions/${query}`);
-      dispatch({
-        type: 'GET_TRANSACTION',
-        payload: res.data.data
-      });
-    } catch (err) {
-      dispatch({
-        type: 'TRANSACTION_ERROR',
-        payload: err.response.data
-      });
-    }
-  }
-
-  function resetTransaction() {
-    dispatch({
-      type: 'RESET_TRANSACTION',
-    })
-  }
-
   return (
     <GlobalContext.Provider
       value={{
@@ -193,19 +193,19 @@ export const GlobalProvider = ({ children }) => {
         users: state.users,
         error: state.error,
         loading: state.loading,
-        getCurrentUser,
-        registerUser,
-        loginUser,
-        updateUser,
-        logoutUser,
-        loadUser,
-        getToken,
         getTransactions,
+        getTransaction,
+        deleteTransaction,
         addTransaction,
         updateTransaction,
-        deleteTransaction,
         resetTransaction,
-        getTransaction
+        registerUser,
+        loginUser,
+        loadUser,
+        updateUser,
+        logoutUser,
+        getToken,
+        getCurrentUser,
       }}
     >
       {children}
