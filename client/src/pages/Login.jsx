@@ -34,6 +34,9 @@ const Login = () => {
   return (
     <div>
       <form>
+        <h1 className="heading-secondary negative">
+          Login
+        </h1>
         <TextField
           id='Email'
           label='Email'

@@ -15,12 +15,10 @@ const Register = () => {
       e.preventDefault();
       registerUser({ name, email, password });
     },
-    // eslint-disable-next-line
     [name, email, password]
   );
 
   const handleChange = useCallback((e) => {
-    // eslint-disable-next-line
     switch (e.target.id) {
       case 'Name':
         setName(e.target.value);
@@ -38,12 +36,16 @@ const Register = () => {
 
   return (
       <form>
+        <h1 className="heading-secondary negative">
+          Register
+        </h1>
         <TextField
           id='Name'
           label='Name'
           type='text'
           required='true'
           value={name}
+          className='form_input'
           onChange={handleChange}
         />
         <TextField
@@ -52,6 +54,7 @@ const Register = () => {
           type='email'
           required='true'
           value={email}
+          className='form_input'
           onChange={handleChange}
         />
         <TextField
@@ -60,12 +63,15 @@ const Register = () => {
           type='password'
           required='true'
           value={password}
+          className='form_input'
           onChange={handleChange}
         />
       <button
         className="button-secondary"
         onClick={handleSubmit}
-      >Register</button>
+      >
+        Register
+      </button>
       </form>
   )
 }
