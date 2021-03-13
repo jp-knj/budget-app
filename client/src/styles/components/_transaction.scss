@@ -41,3 +41,19 @@
     padding-top: 50px;
   }
 }
+
+.statistics  {
+  display: flex;
+  height: 100%;
+  margin: auto;
+  text-align: center;
+  justify-content: space-between;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  color: #232c2d;
+  opacity: 0.8;
+  overflow: hidden;
+}

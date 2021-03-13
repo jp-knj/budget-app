@@ -45,7 +45,6 @@ const Dashboard = () => {
 
   return (
     <Fragment>
-
       <header className='header'>
         <div className='budget_inner'>
           <TotalAmount amounts={amounts} />

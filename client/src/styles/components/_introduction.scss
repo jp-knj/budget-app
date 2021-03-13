@@ -9,7 +9,7 @@
       margin-bottom: 25px;
     }
     &_name {
-      @extend .heading-secondary;
+      @extend .heading-primary;
       color: $color-primary;
     }
 }

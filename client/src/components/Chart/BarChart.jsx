@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import Moment from 'moment';
+import moment from 'moment';
 import * as d3 from 'd3';
-import { extendMoment } from 'moment-range';
-const moment = extendMoment(Moment);
 
 const BarChart = ({ data, keys, select, width, height }) => {
   const ref = useRef(null);
@@ -17,7 +15,7 @@ const BarChart = ({ data, keys, select, width, height }) => {
 
   const firstDay = moment().startOf('month');
   const lastDay = moment().endOf('month');
-  const monthRange = moment.range(firstDay, lastDay,1);
+  const monthRange = moment.range(firstDay, lastDay);
   for (let mday of monthRange.by('days')) {
     if (weekList.indexOf(mday.week()) === -1) {
       weekList.push('Week ' + mday.week());
@@ -104,7 +102,7 @@ const BarChart = ({ data, keys, select, width, height }) => {
   }, []);
 
   return (
-    <svg width={width} height={height} ref={ref} className='center-align'>
+    <svg width={width} height={230} ref={ref} className='center-align'>
       <g className='x-axis' />
       <g className='legend' />
     </svg>

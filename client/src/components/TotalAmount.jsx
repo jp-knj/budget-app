@@ -15,7 +15,7 @@ const TotalAmount = ({ amounts, text = 'total balance' }) => {
   const prevTotal = prevTotalRef.current;
 
   return (
-    <section className="budget">
+    <div className="total_amount">
       <p className="budget_title">{text}</p>
       <CountUp
         className='budget_value'
@@ -26,7 +26,7 @@ const TotalAmount = ({ amounts, text = 'total balance' }) => {
         separator='.'
         duration={0.5}
       />
-    </section>
+    </div>
   )
 }
 export default TotalAmount

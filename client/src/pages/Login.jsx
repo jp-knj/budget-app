@@ -32,30 +32,34 @@ const Login = () => {
   if(getToken()) return <Redirect to='/' />;
 
   return (
-    <form>
-      <TextField
-        id='Email'
-        label='Email'
-        type='email'
-        required='true'
-        value={email}
-        onChange={handleChange}
-      />
-      <TextField
-        id='Password'
-        label='Password'
-        type='password'
-        required='true'
-        value={password}
-        onChange={handleChange}
-      />
-      <button
-        className='button-secondary'
-        onClick={handleSubmit}
-      >
-        Login
-      </button>
-    </form>
+    <div>
+      <form>
+        <TextField
+          id='Email'
+          label='Email'
+          type='email'
+          required='true'
+          className='form_input'
+          value={email}
+          onChange={handleChange}
+        />
+        <TextField
+          id='Password'
+          label='Password'
+          type='password'
+          required='true'
+          className='form_input'
+          value={password}
+          onChange={handleChange}
+        />
+        <button
+          className='button-secondary'
+          onClick={handleSubmit}
+        >
+          Login
+        </button>
+      </form>
+    </div>
   )
 }
 

@@ -4,7 +4,7 @@ import { GlobalContext } from '../context/GlobalState'
 // Material Ui
 import { makeStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
-import { Dialog, AppBar, Toolbar, IconButton, Slide } from '@material-ui/core'
+import { Dialog, AppBar, Toolbar, IconButton, Typography, Slide } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 // Validation
 import { numberValid, numberCalc, numberEuro } from '../utils/format'
@@ -37,11 +37,27 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TopBar = ({ action, handleClose }) => {
+const useStyle = makeStyles((theme) => ({
+  appBar: {
+    position: 'relative',
+    boxShadow: 'none',
+  },
+  title: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+    opacity: 0.8,
+    fontSize: '16px',
+    textTransform: 'uppercase',
+  },
+}));
+
+const TopBar = ({ action, minus, handleClose }) => {
+  const classes = useStyle();
   return (
-    <AppBar>
+    <AppBar className={classes.appBar}>
       <Toolbar>
-        <h4>{action}</h4>
+        <Typography variant='h6' className={classes.title}>
+        </Typography>
         <IconButton edge='start' color='inherit' onClick={handleClose} aria-label='close'>
           <CloseIcon />
         </IconButton>
@@ -67,7 +83,7 @@ const TransactionForm = ({ open, setOpen, action, data }) => {
   const [minus, setMinus] = useState(initialMinus);
 
   const [disableBtn, setDisableBtn] = useState(true);
-
+  const color = data && data.amount > 0 ? 'positive' : 'negative';
   const reset = useCallback(() => {
     setOpen(false);
     setErrorText(false);
@@ -157,7 +173,9 @@ const TransactionForm = ({ open, setOpen, action, data }) => {
           autoComplete='off'
           onSubmit={onSubmit}
         >
-          <p>{minus ? 'Expense' : 'Income'}</p>
+          <h1 className={`heading-secondary ${minus ? 'positive' : 'negative'}`}>
+            { minus? 'Expense': 'Income' }
+          </h1>
           <InputAmount
             minus={minus}
             amount={amount}
@@ -174,6 +192,7 @@ const TransactionForm = ({ open, setOpen, action, data }) => {
           />
           <InputDate date={date} handleDate={handleDate}/>
           <button
+            className={`button-secondary ${minus ? 'negative-bg' : 'positive-bg'}`}
             disabled={disableBtn ? true : false}
           >
             Save

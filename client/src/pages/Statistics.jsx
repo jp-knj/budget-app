@@ -64,7 +64,7 @@ const Statistics = () => {
     <>
       <div className="header">
       <DateTabs types={timeFilters} value={value} setValue={setValue} />
-        <section className="budget" style={{ height: '300px' }}>
+        <div className="statistics" style={{ height: '230px' }}>
           {combinedLists.length > 0 ? (
             <BarChart
               data={combinedLists}
@@ -74,11 +74,13 @@ const Statistics = () => {
               width={window.innerWidth > 320 ? 350 : 288}
               />
           ) : (
-            <p className='text-white-s vertical-align'>
-              No transaction
-            </p>
+            <div className='loading'>
+              <p className='loading-white'>
+                    No transaction
+              </p>
+            </div>
           )}
-      </section>
+      </div>
       </div>
       <section className='transaction'>
         <div className='transaction_lists'>

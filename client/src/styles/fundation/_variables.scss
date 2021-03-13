@@ -5,13 +5,17 @@ $color-secondary: #F4B202;
 $color-black: #515758;
 $color-black-light: #939494;
 $color-white:#FDFDFD;
+.positive-bg { background-color : #65BCBF !important;}
+.negative-bg { background-color : #F4B202 !important;}
+.positive {color: $color-secondary}
+.negative {color: $color-primary}
 
 // Typography
 .heading-primary {
   font-size: 40px;
-  font-weight: 300;
 }
 .heading-secondary {
+  text-align: center;
   font-size: 34px;
   font-weight: 600;
 }
