@@ -5,3 +5,15 @@ form {
   display: flex;
   flex-direction: column;
 }
+
+.form_input {
+  margin-bottom: 20px!important;
+}
+
+.form_amount {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

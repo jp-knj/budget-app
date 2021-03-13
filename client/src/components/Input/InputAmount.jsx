@@ -10,6 +10,7 @@ import RemoveIcon from '@material-ui/icons/Remove'
 import { useStyles } from '../TransactionForm'
 
 const InputAmount = ({
+  action,
   minus,
   amount,
   errorAmount,
@@ -46,21 +47,15 @@ const InputAmount = ({
   }))(Switch);
 
   return (
-    <div>
-      <TransactionSwitch
-        checked={minus}
-        tabIndex='-1'
-        onChange={handleMinus}
-        onClick={handleFocus}
-        inputProps={{ 'aria-label': 'secondary checkbox' }}
-      />
+    <div className="form_amount">
       <TextField
         id='amount'
         inputRef={ref}
         label='Amount'
         required
-        autoFocus='true'
-        value={amount}
+        className='form_input'
+        autoFocus={action === 'new' && true}
+        value={amount || ''}
         InputProps={{
           className: `${classes.input} ${
             minus ? classes.inputMinus : classes.inputPlus
@@ -71,11 +66,19 @@ const InputAmount = ({
             </InputAdornment>
           ),
         }}
+        error={errorAmount}
         helperText={errorAmount
           ? 'Please enter a valid number'
           : 'Toggle Income / Expense'
         }
         onChange={handleAmount}
+      />
+      <TransactionSwitch
+        checked={minus}
+        tabIndex='-1'
+        onChange={handleMinus}
+        onClick={handleFocus}
+        inputProps={{ 'aria-label': 'secondary checkbox' }}
       />
     </div>
   )

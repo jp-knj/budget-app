@@ -22,6 +22,7 @@ const InputDate = ({ date, handleDate }) => {
         label='Date'
         value={date}
         format={dateFormat}
+        className='form_input'
         onChange={handleDate}
         KeyboardButtonProps={{ 'aria-label': 'change date' }}
         fullWidth
