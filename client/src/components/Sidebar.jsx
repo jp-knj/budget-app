@@ -31,6 +31,7 @@ const Sidebar = ({ children }) => {
   const [open, setOpen] = useState(false);
   const token = getToken();
   const marginLeft = token ? '' : 'margin-left0'
+  const showAddButton = token !== null
   const handleForm = useCallback(() => {
     setOpen(true);
   }, []);
@@ -77,13 +78,15 @@ const Sidebar = ({ children }) => {
         <main className={`container  ${marginLeft}`}>
           {children}
         </main>
-       <TransactionForm open={open} setOpen={setOpen} action='new' />
-       <div
-         className="button-primary"
-         onClick={handleForm}
-       >
-         <Add className={`${classes.addCircleIcon}`} />
-       </div>
+        <TransactionForm open={open} setOpen={setOpen} action='new' />
+        <Zoom in={showAddButton}>
+          <div
+            className="button-primary"
+            onClick={handleForm}
+          >
+            <Add className={`${classes.addCircleIcon}`} />
+          </div>
+        </Zoom>
      </div>
     </ThemeProvider>
   )
