@@ -26,16 +26,16 @@ const Filter = ({ value, sortLatest, sortDsc, handleSortDate, handleSortAmount, 
   return (
     <div className='transaction_header'>
       {value === 0 ? (
-          <Typography variant='body2'style={textItem} >{text}</Typography>
+          <Typography variant='body2'style={textItem} className="filter">{text}</Typography>
       ) : (
-        <div style={sortItem} onClick={handleSortDate}>
+        <div style={sortItem} onClick={handleSortDate} className="filter">
           <Typography variant='body2' style={alignItem}>
             {sortText ? sortText : 'date'}
           </Typography>
-          {sortLatest ? <ArrowDropUpSharpIcon /> : <ArrowDropDownSharpIcon />}
+          {sortLatest ? <ArrowDropUpSharpIcon className="filter"/> : <ArrowDropDownSharpIcon className="filter"/>}
         </div>
       )}
-      <div style={sortItem} onClick={handleSortAmount}>
+      <div style={sortItem} onClick={handleSortAmount} className="filter">
         <Typography variant='body2' style={alignItem}>
           Amount
         </Typography>
