@@ -1,5 +1,5 @@
 import React, { useContext, useState, useCallback } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import { GlobalContext } from '../context/GlobalState'
 
 import { TextField } from '@material-ui/core'
@@ -66,12 +66,13 @@ const Register = () => {
           className='form_input'
           onChange={handleChange}
         />
-      <button
-        className="button-secondary"
-        onClick={handleSubmit}
-      >
-        Register
-      </button>
+        <button
+          className="button-secondary"
+          onClick={handleSubmit}
+        >
+          Register
+        </button>
+        <Link to="/" className="form_link"> Already have accounts? </Link>
       </form>
   )
 }

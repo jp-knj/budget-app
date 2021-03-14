@@ -1,7 +1,7 @@
 form {
   margin: auto;
   margin-top: 150px;
-  height: 400px;
+  height: fit-content;
   width: $content-width;
   display: flex;
   flex-direction: column;
@@ -17,4 +17,10 @@ form {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+}
+
+.form_link {
+  margin-top: 20px;
+  text-align: center;
+  color: $color-primary;
 }

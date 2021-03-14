@@ -1,5 +1,5 @@
 import React, { useContext, useState, useCallback } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { GlobalContext } from '../context/GlobalState'
 
 // Material UI
@@ -61,6 +61,7 @@ const Login = () => {
         >
           Login
         </button>
+        <Link to="/register" className="form_link">No accout ?</Link>
       </form>
     </div>
   )
