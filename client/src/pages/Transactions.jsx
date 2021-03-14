@@ -11,7 +11,6 @@ import DateTabs from '../components/DateTabs'
 import ListItem from '../components/ListItem'
 
 // Utils
-import { transitionConfig } from '../utils/animation'
 import { whiteTheme } from '../utils/colorTheme'
 import { filterAmount, sortDateAmount } from '../utils/calculation'
 
@@ -23,7 +22,8 @@ const Selector = ({ types, selected, setSelected }) => {
   const style = {
     buttonGroup: {
       background: '#65BCBF',
-      borderRadius: 0
+      borderRadius: 0,
+      marginTop: 'auto'
     },
     button: {
       borderRadius: 0,
@@ -119,8 +119,10 @@ const Transactions = () => {
           value={value}
           setValue={setValue}
         />
-        { selected === 'all' ? (
-          <TotalAmount amounts={amounts} text={`${timeFilters[value]}ly balance`}/>
+        {selected === 'all' ? (
+          <div className="total_container">
+            <TotalAmount amounts={amounts} text={`${timeFilters[value]}ly balance`} />
+          </div>
           ) : (
           <div className='chart'>
             <div className='chart_pie'>
@@ -168,7 +170,7 @@ const Transactions = () => {
         <div className='transaction_circular'>
           {loading
           ? (<CircularProgress/>)
-          : (<p>No recent transaction</p>)}
+          : (<p className="transaction_text">No recent transaction</p>)}
         </div>
           )}
       </section>

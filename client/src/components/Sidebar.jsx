@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 
 // Material-UI Core
-import { CssBaseline, AppBar, Drawer, Hidden, IconButton, Typography, MenuItem, MenuList, ListItemIcon, Fab, Zoom } from '@material-ui/core'
+import { Drawer, IconButton, MenuItem, MenuList, ListItemIcon, Zoom } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core/styles'

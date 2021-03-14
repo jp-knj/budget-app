@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Transition, animated } from 'react-spring';
+import { animated } from 'react-spring';
 import moment from 'moment';
 import { v4 as id } from 'uuid';
 import { GlobalContext } from '../context/GlobalState';
@@ -95,7 +95,7 @@ const Statistics = () => {
         ) : (
         <div className='transaction_circular'>
           {loading
-            ? (<CircularProgress color='white' />)
+            ? (<CircularProgress/>)
             : (<p>No transaction of the {timeFilters[value]}</p>)
           }
         </div>
