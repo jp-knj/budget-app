@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
 
-
 // Material-UI Core
-import { CssBaseline, AppBar, Drawer, Hidden, IconButton, Toolbar, Typography, MenuItem, MenuList, ListItemIcon, Fab, Zoom } from '@material-ui/core';
+import { CssBaseline, AppBar, Drawer, Hidden, IconButton, Typography, MenuItem, MenuList, ListItemIcon, Fab, Zoom } from '@material-ui/core'
+import MenuIcon from '@material-ui/icons/Menu';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core/styles'
 
@@ -25,15 +25,10 @@ import TransactionForm from './TransactionForm'
 import { checkDayTime } from '../utils/calculation.js';
 import { defaultMaterialTheme } from '../utils/colorTheme'
 
-const useStyles = makeStyles(() => ({
-    addCircleIcon: {
-      color: 'white'
-    }
-}));
-
 const Sidebar = ({ children, location: { pathname } }) => {
   const { getToken, users, loadUser } = useContext(GlobalContext);
-  const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false),
+        [open, setOpen] = useState(false);
   const token = getToken();
   const marginLeft = token ? '' : 'margin-left0'
 
@@ -57,9 +52,6 @@ const Sidebar = ({ children, location: { pathname } }) => {
     },
     menuButton: {
       marginRight: theme.spacing(2),
-      [theme.breakpoints.up('sm')]: {
-        display: 'none',
-      },
       color: 'white',
     },
     drawerPaper: {
@@ -80,14 +72,6 @@ const Sidebar = ({ children, location: { pathname } }) => {
     selectedColor: {
       color: '#65bcbf',
       fontWeight: 800,
-    },
-    appbarTitle: {
-      position: 'absolute',
-      left: '50%',
-      transform: 'translate(-50%)',
-      margin: '0 auto',
-      fontSize: '16px',
-      textTransform: 'uppercase',
     },
     fab: {
       position: 'fixed',
@@ -147,6 +131,14 @@ const Sidebar = ({ children, location: { pathname } }) => {
     }
   };
 
+  const handleClose = useCallback(() => {
+    setMobileOpen(false);
+  }, []);
+
+  const handleOpen = useCallback(() => {
+    setMobileOpen(!mobileOpen);
+  }, [mobileOpen]);
+
   useEffect(() => {
     token && loadUser();
    }, []);
@@ -154,47 +146,103 @@ const Sidebar = ({ children, location: { pathname } }) => {
   return (
     <ThemeProvider theme={defaultMaterialTheme}>
       <div className="wrapper" id='menu'>
-      {token && (
-       <div className="sidebar">
-         <aside>
-           <div className="introduction">
-             <h3 className="introduction_date">Friday, 5 March</h3>
-             <h4 className="introduction_time">Good Morning</h4>
-             <h2 className="introduction_name">
-               {token && users.user && users.user.name}
-             </h2>
-           </div>
-           <nav className="navigation">
-             <MenuList>
-              {drawerList.map(({ name, icon }) => {
-              const path = '/' + name;
-              const itemColor = (path) => {
-              if (path === pathname) return classes.selectedColor;
-                return classes.textColor;
-              };
-              return (
-                <MenuItem
-                  key={name}
-                  to={path}
-                  component={NavLink}
-                  selected={path === pathname}
-                  style={{ minHeight: '48px' }}
-                >
-                  <ListItemIcon className={itemColor(path)} style={{ minWidth: '35px' }}>
-                    {icon}
-                  </ListItemIcon>
-                  <p className={itemColor(path)} style={{ fontSize: '14px' }}>
-                    {name}
-                  </p>
-                </MenuItem>
-                  );
-                })}
-             </MenuList>
-           </nav>
-         </aside>
-       </div>
+        {token && (
+          <div>
+            <Drawer
+              open={mobileOpen}
+              onClose={handleOpen}
+              classes={{ paper: classes.drawerPaper }}
+            >
+            <aside>
+              <div className="introduction">
+                <h3 className="introduction_date">Friday, 5 March</h3>
+                <h4 className="introduction_time">Good Morning</h4>
+                <h2 className="introduction_name">
+                  {token && users.user && users.user.name}
+                </h2>
+              </div>
+              <nav className="navigation">
+                <MenuList>
+                {drawerList.map(({ name, icon }) => {
+                  const path = '/' + name;
+                  const itemColor = (path) => {
+                  if (path === pathname) return classes.selectedColor;
+                    return classes.textColor;
+                  };
+                  return (
+                    <MenuItem
+                      key={name}
+                      to={path}
+                      component={NavLink}
+                      selected={path === pathname}
+                      style={{ minHeight: '48px' }}
+                      onClick={handleClose}
+                    >
+                      <ListItemIcon className={itemColor(path)} style={{ minWidth: '35px' }}>
+                        {icon}
+                      </ListItemIcon>
+                      <p className={itemColor(path)} style={{ fontSize: '14px' }}>{name}</p>
+                    </MenuItem>
+                      );
+                    })}
+                </MenuList>
+              </nav>
+            </aside>
+         </Drawer>
+          <div className="sidebar">
+            <aside>
+              <div className="introduction">
+                <h3 className="introduction_date">Friday, 5 March</h3>
+                <h4 className="introduction_time">Good Morning</h4>
+                <h2 className="introduction_name">
+                  {token && users.user && users.user.name}
+                </h2>
+              </div>
+              <nav className="navigation">
+                <MenuList>
+                {drawerList.map(({ name, icon }) => {
+                  const path = '/' + name;
+                  const itemColor = (path) => {
+                  if (path === pathname) return classes.selectedColor;
+                    return classes.textColor;
+                  };
+                  return (
+                    <MenuItem
+                      key={name}
+                      to={path}
+                      component={NavLink}
+                      selected={path === pathname}
+                      style={{ minHeight: '48px' }}
+                      onClick={handleClose}
+                    >
+                      <ListItemIcon className={itemColor(path)} style={{ minWidth: '35px' }}>
+                        {icon}
+                      </ListItemIcon>
+                      <p className={itemColor(path)} style={{ fontSize: '14px' }}>{name}</p>
+                    </MenuItem>
+                      );
+                    })}
+                </MenuList>
+              </nav>
+            </aside>
+          </div>
+        </div>
         )}
         <main className={`container  ${marginLeft}`}>
+          <div className="header_top">
+            <div className="header_container">
+              <IconButton
+                aria-label='open drawer'
+                edge='start'
+                onClick={handleOpen}
+              >
+                <MenuIcon className={`${classes.addCircleIcon}`}/>
+              </IconButton>
+              <h4>
+                {getCurrentTitle(pathname)}
+              </h4>
+            </div>
+          </div>
           {children}
         </main>
         <TransactionForm open={open} setOpen={setOpen} action='new' />

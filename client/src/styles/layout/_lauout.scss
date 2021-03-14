@@ -7,11 +7,17 @@
   min-height: 100vh;
   width: $navi-width;
   background-color: #EAEBED;
+  @media only screen and (max-width: 768px) {
+    display: none;
+  }
 }
 .container {
   min-height: 100vh;
   width: 100%;
   margin-left: $navi-width;
+  @media only screen and (max-width: 768px) {
+    margin-left: 0;
+  }
 }
 .margin-left0 {
   margin-left: 0;
@@ -20,4 +26,31 @@
   background: linear-gradient(to right, $color-primary, $color-primary-light);
   height: 300px;
   text-align: center;
+
+  &_top {
+    display: none;
+    @media only screen and (max-width: 768px) {
+      display: flex;
+      background: linear-gradient(to right, $color-primary, $color-primary-light);
+    }
+  }
+  &_container {
+      display: flex;
+      margin: 0 auto;
+      padding: 0 20px;
+      width: 750px;
+      color: $color-white;
+      position: relative;
+      h4{
+        position: absolute;
+        top: 25px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+  }
+}
+
+.current_page {
+  height: 30px;
+  vertical-align: bottom;
 }
