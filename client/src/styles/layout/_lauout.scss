@@ -6,7 +6,7 @@
   position: fixed;
   min-height: 100vh;
   width: $navi-width;
-  background-color: #EAEBED;
+  background-color: $color-black-light;
   @media only screen and (max-width: 768px) {
     display: none;
   }

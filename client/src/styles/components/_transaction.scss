@@ -40,6 +40,9 @@
     justify-content: center;
     padding-top: 50px;
   }
+  &_text {
+    color: $color-black-light;
+  }
 }
 
 .statistics  {
@@ -56,4 +59,14 @@
   color: #232c2d;
   opacity: 0.8;
   overflow: hidden;
+}
+
+.block{
+  width: 30%;
+  text-align: end;
+  &-amount {
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+  }
 }
