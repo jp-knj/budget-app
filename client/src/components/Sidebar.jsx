@@ -22,8 +22,10 @@ import { GlobalContext } from '../context/GlobalState'
 import TransactionForm from './TransactionForm'
 
 // Utils
-import { checkDayTime } from '../utils/calculation.js';
+import { checkDayTime, getGreeting } from '../utils/calculation.js'
 import { defaultMaterialTheme } from '../utils/colorTheme'
+
+import moment from 'moment'
 
 const Sidebar = ({ children, location: { pathname } }) => {
   const { getToken, users, loadUser } = useContext(GlobalContext);
@@ -155,8 +157,8 @@ const Sidebar = ({ children, location: { pathname } }) => {
             >
             <aside>
               <div className="introduction">
-                <h3 className="introduction_date">Friday, 5 March</h3>
-                <h4 className="introduction_time">Good Morning</h4>
+                  <h3 className="introduction_date">{moment().format('dddd, D MMMM')}</h3>
+                  <h4 className="introduction_time">Good {getGreeting(now)}</h4>
                 <h2 className="introduction_name">
                   {token && users.user && users.user.name}
                 </h2>
@@ -191,9 +193,10 @@ const Sidebar = ({ children, location: { pathname } }) => {
          </Drawer>
           <div className="sidebar">
             <aside>
-              <div className="introduction">
-                <h3 className="introduction_date">Friday, 5 March</h3>
-                <h4 className="introduction_time">Good Morning</h4>
+                <div className="introduction">
+                  <p style={{ opacity: 0.3 }}>{moment().format('dddd, D MMMM')}</p>
+                  <h3 className="introduction_date">{moment().format('dddd, D MMMM')}</h3>
+                <h4 className="introduction_time">Good {getGreeting(now)}</h4>
                 <h2 className="introduction_name">
                   {token && users.user && users.user.name}
                 </h2>
@@ -231,6 +234,7 @@ const Sidebar = ({ children, location: { pathname } }) => {
         <main className={`container  ${marginLeft}`}>
           <div className="header_top">
             <div className="header_container">
+              {token && (
               <IconButton
                 aria-label='open drawer'
                 edge='start'
@@ -238,6 +242,7 @@ const Sidebar = ({ children, location: { pathname } }) => {
               >
                 <MenuIcon className={`${classes.addCircleIcon}`}/>
               </IconButton>
+              )}
               <h4>
                 {getCurrentTitle(pathname)}
               </h4>
