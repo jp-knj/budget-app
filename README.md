@@ -9,8 +9,8 @@ Frontend : HTML5 CSS3( Sass ), React.js
 Backend : Express.js ( Node.js )
 Database : MongoDB Atlas
 
-![budget-app views](./images/bb753818b290bd5cea51644aef0e7b76.gif)
 ![budget-app views](./images/9f31b814f382edff35817825be704065.gif)
+![budget-app views](./images/384a306503663853cfd33efba107948a.gif)
 
 ## User Story
 Logged in, the uesr can access the following key features :  
